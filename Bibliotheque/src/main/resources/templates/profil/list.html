@@ -1,0 +1,13 @@
+<h2>Profils</h2>
+<a th:href="@{/profils/new}">Ajouter une profil</a>
+<table border="1">
+    <tr><th>Nom</th></tr>
+    <tr th:each="profil : ${profils}">
+        <td th:text="${profil.nom}"></td>
+        <td>
+            <a th:href="@{'/profils/edit/' + ${profil.id}}">Modifier</a> |
+            <a th:href="@{'/profils/delete/' + ${profil.id}}"
+               onclick="return confirm('Supprimer ?');">Supprimer</a>
+        </td>
+    </tr>
+</table>

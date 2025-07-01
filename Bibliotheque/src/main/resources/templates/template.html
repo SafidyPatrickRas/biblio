@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bibliotheque</title>
+</head>
+<body>
+    <!-- Message de succès -->
+<div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+
+<!-- Message d'erreur -->
+<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    <h1>Template de base</h1>
+    <div th:replace="~{${page}}"></div>
+</body>
+</html>

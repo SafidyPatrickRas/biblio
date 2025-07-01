@@ -1,0 +1,41 @@
+<h2>Inscription</h2>
+
+<form th:action="@{/adherant/inscription}" th:object="${inscriptionAdherantForm}" method="post">
+    <!-- Nom -->
+    <div>
+        <label>Nom :</label>
+        <input type="text" th:field="*{nom}" />
+        <span th:errors="*{nom}" style="color:red"></span>
+    </div>
+
+    <!-- Prénom -->
+    <div>
+        <label>Prénom :</label>
+        <input type="text" th:field="*{prenom}" />
+        <span th:errors="*{prenom}" style="color:red"></span>
+    </div>
+
+    <!-- Date de naissance -->
+    <div>
+        <label>Date de naissance :</label>
+        <input type="date" th:field="*{dateNaissance}" />
+        <span th:errors="*{dateNaissance}" style="color:red"></span>
+    </div>
+
+    <!-- Email -->
+    <div>
+        <label>Email :</label>
+        <input type="email" th:field="*{email}" />
+        <span th:errors="*{email}" style="color:red"></span>
+    </div>
+
+    <!-- Mot de passe -->
+    <div>
+        <label>Mot de passe :</label>
+        <input type="password" th:field="*{mot_de_passe}" />
+        <span th:errors="*{mot_de_passe}" style="color:red"></span>
+    </div>
+
+    <button type="submit">Valider</button>
+</form>
+<a th:href="@{/adherant/login}">login</a>
