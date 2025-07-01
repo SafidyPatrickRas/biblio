@@ -19,6 +19,7 @@
                     <th>Âge restriction</th>
                     <th>Auteur</th>
                     <th>Catégories</th>
+                    <th class="text-center">Nb. exemplaires</th> <!-- Ajout colonne -->
                 </tr>
             </thead>
             <tbody>
@@ -38,6 +39,7 @@
                                   th:text="${categorie.nom}"></span>
                         </div>
                     </td>
+                    <td class="text-center" th:text="${#lists.size(livre.exemplaires)}"></td> <!-- Affichage du nombre d'exemplaires -->
                 </tr>
             </tbody>
         </table>
