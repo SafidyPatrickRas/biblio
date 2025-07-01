@@ -1,0 +1,38 @@
+<div class="container mt-5">
+    <h2>Inscription d'un nouvel adhérant</h2>
+    <form th:action="@{/adherants}" th:object="${adherant}" method="post">
+        <div class="mb-3">
+            <label for="nom" class="form-label">Nom</label>
+            <input type="text" th:field="*{nom}" class="form-control" id="nom" required maxlength="50">
+            <span class="text-danger" th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}"></span>
+        </div>
+        <div class="mb-3">
+            <label for="prenom" class="form-label">Prénom</label>
+            <input type="text" th:field="*{prenom}" class="form-control" id="prenom" required maxlength="50">
+            <span class="text-danger" th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}"></span>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" th:field="*{email}" class="form-control" id="email" required maxlength="50">
+            <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+        </div>
+        <div class="mb-3">
+            <label for="motDePasse" class="form-label">Mot de passe</label>
+            <input type="password" th:field="*{motDePasse}" class="form-control" id="motDePasse" required maxlength="50">
+            <span class="text-danger" th:if="${#fields.hasErrors('motDePasse')}" th:errors="*{motDePasse}"></span>
+        </div>
+        <div class="mb-3">
+            <label for="dateNaissance" class="form-label">Date de naissance</label>
+            <input type="date" th:field="*{dateNaissance}" class="form-control" id="dateNaissance" required>
+            <span class="text-danger" th:if="${#fields.hasErrors('dateNaissance')}" th:errors="*{dateNaissance}"></span>
+        </div>
+        <div class="mb-3">
+            <label for="profil" class="form-label">Profil</label>
+            <select th:field="*{profil}" class="form-select" id="profil" required>
+                <option th:each="profil : ${profils}" th:value="${profil}" th:text="${profil.nom}"></option>
+            </select>
+            <span class="text-danger" th:if="${#fields.hasErrors('profil')}" th:errors="*{profil}"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">S'inscrire</button>
+    </form>
+</div>
