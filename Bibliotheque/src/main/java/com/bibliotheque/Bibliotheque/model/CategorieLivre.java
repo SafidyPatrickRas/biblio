@@ -3,6 +3,8 @@ package com.bibliotheque.Bibliotheque.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class CategorieLivre {
@@ -14,6 +16,9 @@ public class CategorieLivre {
     @NotBlank(message = "Le nom de la catégorie est obligatoire")
     @Size(max = 50, message = "Le nom de la catégorie ne doit pas dépasser 50 caractères")
     private String nom;
+
+    @ManyToMany(mappedBy = "categories")
+    private Set<Livre> livres = new HashSet<>();
 
     // Constructeurs
     public CategorieLivre() {
