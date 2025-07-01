@@ -1,0 +1,36 @@
+<h2 th:text="${regleInscription.id == null ? 'Ajouter' : 'Modifier'} + ' une règle d\'inscription sur le profil'"></h2>
+
+<form th:action="@{/regles_inscription}" th:object="${regleInscription}" method="post">
+    <!-- Champ caché si modification -->
+    <input type="hidden" th:if="${regleInscription.id != null}" th:field="*{id}" />
+
+    <label for="profil">Profil :</label>
+
+    <!-- ✅ CAS 1 : Ajout (id == null) => on affiche la liste déroulante -->
+    <select th:if="${regleInscription.id == null}" th:field="*{profil}" id="profil">
+        <option value="">Sélectionner un profil</option>
+        <option th:each="profil : ${profils}" th:value="${profil.id}" th:text="${profil.nom}">
+        </option>
+    </select>
+
+    <!-- ✅ CAS 2 : Modification (id != null) => on affiche le nom du profil et un champ caché -->
+    <div th:if="${regleInscription.id != null}">
+        <span th:text="${regleInscription.profil.nom}">Nom du profil</span>
+        <!-- Champ caché pour conserver l'association Profil -->
+        <input type="hidden" th:field="*{profil}" />
+    </div>
+
+    <span th:errors="*{profil}" style="color:red"></span><br>
+
+    <label for="validite">Validité :</label>
+    <input type="number" th:field="*{nbrValidite}" id="validite" />
+    <span th:errors="*{nbrValidite}" style="color:red"></span><br>
+
+    <label for="prix">Prix :</label>
+    <input type="number" th:field="*{prix}" id="prix" />
+    <span th:errors="*{prix}" style="color:red"></span><br>
+
+    <button type="submit">Valider</button>
+</form>
+
+<a th:href="@{/regles_inscription}">Retour à la liste</a>

@@ -1,0 +1,15 @@
+<h2>Profils</h2>
+<a th:href="@{/regles_inscription/new}">Ajouter une profil</a>
+<table border="1">
+    <tr><th>Profil</th><th>Nombre de validité</th><th>Prix</th></tr>
+    <tr th:each="regleInscription : ${reglesInscription}">
+        <td th:text="${regleInscription.profil.nom}"></td>
+        <td th:text="${regleInscription.nbrValidite}"></td>
+        <td th:text="${regleInscription.prix}"></td>
+        <td>
+            <a th:href="@{'/regles_inscription/edit/' + ${regleInscription.id}}">Modifier</a> |
+            <a th:href="@{'/regles_inscription/delete/' + ${regleInscription.id}}"
+               onclick="return confirm('Supprimer ?');">Supprimer</a>
+        </td>
+    </tr>
+</table>
