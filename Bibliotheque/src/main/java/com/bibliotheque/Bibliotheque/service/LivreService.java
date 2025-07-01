@@ -73,4 +73,10 @@ public class LivreService {
     public boolean existsByTitreAndAuteur(String titre, Integer idAuteur) {
         return livreRepository.existsByTitreAndAuteurId(titre, idAuteur);
     }
+
+    public int getNombreExemplaires(Integer livreId) {
+        Livre livre = livreRepository.findById(livreId)
+            .orElseThrow(() -> new RuntimeException("Livre non trouvé"));
+        return livre.getExemplaires().size();
+    }
 }

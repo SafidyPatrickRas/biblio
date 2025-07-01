@@ -48,12 +48,23 @@ public class Livre {
     )
     private Set<CategorieLivre> categories = new HashSet<>();
 
+    @OneToMany(mappedBy = "livre", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ExemplaireLivre> exemplaires = new HashSet<>();
+
     public Set<CategorieLivre> getCategories() {
         return categories;
     }
 
     public void setCategories(Set<CategorieLivre> categories) {
         this.categories = categories;
+    }
+
+    public Set<ExemplaireLivre> getExemplaires() {
+        return exemplaires;
+    }
+
+    public void setExemplaires(Set<ExemplaireLivre> exemplaires) {
+        this.exemplaires = exemplaires;
     }
 
     // Getters et Setters
