@@ -30,6 +30,29 @@ public class AdherantController {
     private ProfilService profilService;
 
     // Afficher le formulaire d'insertion d'un nouvel adhérant
+    @GetMapping("/login")
+    public String showLoginForm(Model model) {
+        model.addAttribute("page", "adherant/login");
+        return "template";
+    }
+
+    @PostMapping("/login")
+    public String processLogin(@ModelAttribute("email") String email,
+                              @ModelAttribute("motDePasse") String motDePasse,
+                              RedirectAttributes redirectAttrs) {
+        Adherant adherant = adherantService.authenticate(email, motDePasse);
+        
+        if (adherant != null) {
+            redirectAttrs.addFlashAttribute("message", "Connexion réussie !");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-success");
+            return "redirect:/adherants/success";
+        } else {
+            redirectAttrs.addFlashAttribute("message", "Email ou mot de passe incorrect");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
+            return "redirect:/adherants/login";
+        }
+    }
+
     @GetMapping("/inscription")
     public String showForm(Model model) {
         model.addAttribute("adherant", new Adherant());

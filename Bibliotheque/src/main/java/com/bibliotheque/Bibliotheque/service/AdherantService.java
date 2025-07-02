@@ -33,4 +33,12 @@ public class AdherantService {
     public void deleteById(Integer id) {
         adherantRepository.deleteById(id);
     }
+
+    public Adherant authenticate(String email, String motDePasse) {
+        Optional<Adherant> adherant = adherantRepository.findByEmail(email);
+        if (adherant.isPresent() && adherant.get().getMotDePasse().equals(motDePasse)) {
+            return adherant.get();
+        }
+        return null;
+    }
 }
