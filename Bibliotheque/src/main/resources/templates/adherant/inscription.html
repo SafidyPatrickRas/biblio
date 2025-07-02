@@ -1,6 +1,6 @@
 <div class="container mt-5">
     <h2>Inscription d'un nouvel adhérant</h2>
-    <form th:action="@{/adherants}" th:object="${adherant}" method="post">
+    <form th:action="@{/adherants/inscription}" th:object="${adherant}" method="post">
         <div class="mb-3">
             <label for="nom" class="form-label">Nom</label>
             <input type="text" th:field="*{nom}" class="form-control" id="nom" required maxlength="50">
@@ -28,10 +28,10 @@
         </div>
         <div class="mb-3">
             <label for="profil" class="form-label">Profil</label>
-            <select th:field="*{profil}" class="form-select" id="profil" required>
-                <option th:each="profil : ${profils}" th:value="${profil}" th:text="${profil.nom}"></option>
+            <select th:field="*{profil.id}" class="form-select" id="profil" required>
+                <option th:each="profil : ${profils}" th:value="${profil.id}" th:text="${profil.nom}"></option>
             </select>
-            <span class="text-danger" th:if="${#fields.hasErrors('profil')}" th:errors="*{profil}"></span>
+            <span class="text-danger" th:if="${#fields.hasErrors('profil.id')}" th:errors="*{profil.id}"></span>
         </div>
         <button type="submit" class="btn btn-primary">S'inscrire</button>
     </form>

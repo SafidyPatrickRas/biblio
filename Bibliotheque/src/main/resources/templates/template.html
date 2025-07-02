@@ -34,11 +34,8 @@
     </style>
 </head>
 <body>
-    <!-- Message de succès -->
-<div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
-
-<!-- Message d'erreur -->
-<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+    <!-- Messages flash -->
+    <div th:if="${message}" class="alert" th:classappend="${alertClass}" th:text="${message}"></div>
     <h1>Template de base</h1>
     <div th:replace="~{${page}}"></div>
 </body>
