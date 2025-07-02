@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+import jakarta.servlet.http.HttpSession;
 
 import java.util.List;
 
@@ -39,13 +42,15 @@ public class AdherantController {
     @PostMapping("/login")
     public String processLogin(@ModelAttribute("email") String email,
                               @ModelAttribute("motDePasse") String motDePasse,
-                              RedirectAttributes redirectAttrs) {
+                              RedirectAttributes redirectAttrs,
+                              HttpSession session) {
         Adherant adherant = adherantService.authenticate(email, motDePasse);
         
         if (adherant != null) {
+            session.setAttribute("adherant", adherant); // Sauvegarde en session
             redirectAttrs.addFlashAttribute("message", "Connexion réussie !");
             redirectAttrs.addFlashAttribute("alertClass", "alert-success");
-            return "redirect:/adherants/success";
+            return "redirect:/";
         } else {
             redirectAttrs.addFlashAttribute("message", "Email ou mot de passe incorrect");
             redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
@@ -121,6 +126,25 @@ public class AdherantController {
     @GetMapping("/success")
     public String showSuccess(Model model) {
         model.addAttribute("page", "adherant/success");
+        return "template";
+    }
+
+    @GetMapping("/logout")
+    public String logout(RedirectAttributes redirectAttrs, HttpSession session) {
+        session.removeAttribute("adherant");
+        redirectAttrs.addFlashAttribute("message", "Vous avez été déconnecté");
+        redirectAttrs.addFlashAttribute("alertClass", "alert-info");
+        return "redirect:/";
+    }
+
+    @GetMapping("/profil")
+    public String showProfil(Model model, HttpSession session) {
+        Adherant adherant = (Adherant) session.getAttribute("adherant");
+        if (adherant == null) {
+            return "redirect:/adherants/login";
+        }
+        model.addAttribute("adherant", adherant);
+        model.addAttribute("page", "adherant/profil");
         return "template";
     }
 }

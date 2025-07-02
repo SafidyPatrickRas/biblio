@@ -30,9 +30,14 @@
         <div class="col-md-4">
             <div class="card h-100">
                 <div class="card-body">
-                    <h5 class="card-title">Connexion</h5>
-                    <p class="card-text">Connectez-vous pour accéder à votre espace personnel.</p>
-                    <a href="/adherants/login" class="btn btn-primary">Se connecter</a>
+                    <h5 class="card-title">Mon compte</h5>
+                    <p class="card-text">Gérez votre compte et vos emprunts.</p>
+                    <th:if test="${empty adherant}">
+                        <a href="/adherants/login" class="btn btn-primary">Se connecter</a>
+                    </th:if>
+                    <th:if test="${not empty adherant}">
+                        <a href="/adherants/profil" class="btn btn-primary">Mon Profil</a>
+                    </th:if>
                 </div>
             </div>
         </div>

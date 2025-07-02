@@ -1,30 +1,41 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-        <a class="navbar-brand" href="/">Bibliothèque</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">Accueil</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                        Livres
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/livres">Liste des livres</a></li>
-                        <li><a class="dropdown-item" href="/livres/categorie">Catégories</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/adherants/inscription">Inscription</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/adherants/login">Connexion</a>
-                </li>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">Bibliotheque</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="/">Accueil</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="livresDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Livres
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="livresDropdown">
+              <li><a class="dropdown-item" href="/livres">Liste des livres</a></li>
+              <li><a class="dropdown-item" href="/livres/categorie">Catégories</a></li>
             </ul>
-        </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="adherantsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Adhérents
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="adherantsDropdown">
+                <div th:if="${session.adherant == null}">
+                    <li><a class="dropdown-item" href="/adherants/inscription">Inscription</a></li>
+                    <li><a class="dropdown-item" href="/adherants/login">Connexion</a></li>
+                </div>
+                <div th:if="${session.adherant != null}">
+                    <li><a class="dropdown-item" href="/adherants/profil">Mon Profil</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="/adherants/logout">Déconnexion</a></li>
+                </div>
+            </ul>
+          </li>
+        </ul>
+      </div>
     </div>
-</nav>
+  </nav>

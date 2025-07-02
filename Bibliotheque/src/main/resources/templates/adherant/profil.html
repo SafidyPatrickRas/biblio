@@ -1,0 +1,65 @@
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Mon Profil</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <strong>Nom :</strong>
+                            </div>
+                            <div class="col-md-8">
+                                <span th:text="${adherant.nom}">Nom</span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <strong>Prénom :</strong>
+                            </div>
+                            <div class="col-md-8">
+                                <span th:text="${adherant.prenom}">Prénom</span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <strong>Email :</strong>
+                            </div>
+                            <div class="col-md-8">
+                                <span th:text="${adherant.email}">Email</span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <strong>Email :</strong>
+                            </div>
+                            <div class="col-md-8">
+                                <span th:text="${adherant.email}">Email</span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <strong>Date de naissance :</strong>
+                            </div>
+                            <div class="col-md-8">
+                                <span th:text="${#temporals.format(adherant.dateNaissance, 'dd/MM/yyyy')}">Date de naissance</span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <strong>Profil :</strong>
+                            </div>
+                            <div class="col-md-8">
+                                <span th:text="${adherant.profil.nom}">Profil</span>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <a href="/adherants/modifier" class="btn btn-primary">Modifier mon profil</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
