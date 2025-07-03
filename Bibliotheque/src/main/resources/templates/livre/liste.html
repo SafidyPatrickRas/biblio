@@ -55,7 +55,7 @@
                                         <span th:text="${livre.ageRestriction != null ? livre.ageRestriction : 'Aucune'}"></span>
                                     </p>
                                     <p class="mb-1"><strong>Exemplaires:</strong> 
-                                        <span th:text="${#lists.size(livre.exemplaires)}"></span>
+                                        <span th:text="${livre.exemplaires[0].nombreExemplaires}"></span>
                                     </p>
                                 </div>
                             </div>

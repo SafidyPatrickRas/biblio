@@ -32,4 +32,15 @@ public interface LivreRepository extends JpaRepository<Livre, Integer> {
     
     // Vérifier si un livre existe déjà
     boolean existsByTitreAndAuteurId(String titre, Integer idAuteur);
+
+    // Trouver tous les livres par titre et nom/prénom de l'auteur
+    @Query("SELECT l FROM Livre l JOIN l.auteur a WHERE l.titre = :titre AND a.nom = :nom AND a.prenom = :prenom")
+    List<Livre> findByTitreAndAuteurNomAndAuteurPrenom(
+            @Param("titre") String titre,
+            @Param("nom") String nom,
+            @Param("prenom") String prenom);
+
+    // Trouver tous les livres avec leurs exemplaires
+    @Query("SELECT l FROM Livre l JOIN FETCH l.exemplaires")
+    List<Livre> findAllWithExemplaires();
 }

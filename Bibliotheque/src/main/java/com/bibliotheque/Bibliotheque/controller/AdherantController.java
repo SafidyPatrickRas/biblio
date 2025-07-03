@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Date;
@@ -98,7 +97,7 @@ public class AdherantController {
 
         try {
             // Récupérer le profil sélectionné
-            Long profilId = adherant.getProfil().getId();
+            Integer profilId = adherant.getProfil().getId();
             Profil profil = profilService.getById(profilId);
             if (profil == null) {
                 throw new RuntimeException("Profil non trouvé");

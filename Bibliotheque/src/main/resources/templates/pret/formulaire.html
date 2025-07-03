@@ -1,0 +1,67 @@
+<div class="container mt-5">
+    <h2>Formulaire de prêt</h2>
+
+    <form th:action="@{/pret/ajouter}" method="post">
+        <!-- Champ Adhérent -->
+        <div class="mb-3">
+            <label for="adherantInput" class="form-label">Adhérent</label>
+            <input type="email" 
+                   class="form-control" 
+                   id="adherantInput" 
+                   list="adherants-list"
+                   autocomplete="off"
+                   placeholder="Rechercher par email"
+                   name="adherantEmail"
+                   required>
+            <datalist id="adherants-list">
+                <option th:each="adherant : ${adherants}"
+                        th:value="${adherant.email}"
+                        th:text="${adherant.nom} + ' ' + ${adherant.prenom} + ' (' + ${adherant.email} + ')'">
+                </option>
+            </datalist>
+        </div>
+
+        <!-- Champ Livre -->
+        <div class="mb-3">
+            <label for="livreInput" class="form-label">Livre</label>
+            <input type="text" 
+                   class="form-control" 
+                   id="livreInput" 
+                   list="livres-list"
+                   autocomplete="off"
+                   placeholder="Rechercher un livre"
+                   name="livreTitre"
+                   required>
+            <datalist id="livres-list">
+                <option th:each="livre : ${livres}"
+                        th:value="${livre.titre} + ' - ' + ${livre.auteur.nom} + ' ' + ${livre.auteur.prenom}">
+                </option>
+            </datalist>
+        </div>
+
+        <!-- Type de prêt -->
+        <div class="mb-3">
+            <label for="typePret" class="form-label">Type de prêt</label>
+            <select class="form-select" id="typePret" name="typePretId" required>
+                <option value="" disabled selected>Sélectionnez un type de prêt</option>
+                <option th:each="type : ${typesPret}"
+                        th:value="${type.id}"
+                        th:text="${type.nom}">
+                </option>
+            </select>
+        </div>
+
+        <!-- Dates -->
+        <div class="mb-3">
+            <label for="dateDebut" class="form-label">Date de début</label>
+            <input type="date" class="form-control" id="dateDebut" name="dateDebut" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="dateFin" class="form-label">Date de fin</label>
+            <input type="date" class="form-control" id="dateFin" name="dateFin" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Enregistrer le prêt</button>
+    </form>
+</div>

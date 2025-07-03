@@ -8,7 +8,7 @@ public class Abonnement {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "date_inscription", nullable = false)
     private Date dateInscription;
@@ -21,11 +21,11 @@ public class Abonnement {
     private Adherant adherant;
 
     // Getters et Setters
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

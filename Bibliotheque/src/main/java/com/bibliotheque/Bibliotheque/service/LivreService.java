@@ -18,7 +18,16 @@ public class LivreService {
 
     // CRUD basique
     public List<Livre> getAll() {
-        return livreRepository.findAll();
+        return livreRepository.findAllWithExemplaires();
+    }
+
+    public Optional<Livre> findByTitreAndAuteur(String titre, String nomAuteur, String prenomAuteur) {
+        List<Livre> livres = livreRepository.findByTitreAndAuteurNomAndAuteurPrenom(titre, nomAuteur, prenomAuteur);
+        if (livres.isEmpty()) {
+            return Optional.empty();
+        }
+        // Si plusieurs livres sont trouvés, on prend le premier (on pourrait améliorer cette logique)
+        return Optional.of(livres.get(0));
     }
 
     public Optional<Livre> getById(Integer id) {
@@ -79,4 +88,5 @@ public class LivreService {
             .orElseThrow(() -> new RuntimeException("Livre non trouvé"));
         return livre.getExemplaires().size();
     }
+
 }
