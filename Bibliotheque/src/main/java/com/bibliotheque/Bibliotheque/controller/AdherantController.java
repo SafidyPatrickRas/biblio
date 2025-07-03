@@ -97,7 +97,7 @@ public class AdherantController {
 
         try {
             // Récupérer le profil sélectionné
-            Long profilId = adherant.getProfil().getId();
+            Integer profilId = adherant.getProfil().getId();
             Profil profil = profilService.getById(profilId);
             if (profil == null) {
                 throw new RuntimeException("Profil non trouvé");
