@@ -5,12 +5,26 @@
             
             <div class="row mb-3">
                 <div class="col-md-6">
+                    <h4>Informations personnelles</h4>
                     <p class="mb-1"><strong>Nom:</strong> <span th:text="${adherant.nom}"></span></p>
                     <p class="mb-1"><strong>Prénom:</strong> <span th:text="${adherant.prenom}"></span></p>
                     <p class="mb-1"><strong>Email:</strong> <span th:text="${adherant.email}"></span></p>
                 </div>
                 <div class="col-md-6">
                     <p class="mb-1"><strong>Date de naissance:</strong> <span th:text="${adherant.dateNaissance}"></span></p>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <h4>Statut d'abonnement</h4>
+                    <div th:if="${estAbonne}" class="alert alert-success">
+                        <p>Vous êtes actuellement abonné à la bibliothèque.</p>
+                        <p>Votre abonnement expire le: <strong th:text="${dateFinAbonnement}"></strong></p>
+                    </div>
+                    <div th:unless="${estAbonne}" class="alert alert-warning">
+                        <p>Vous n'êtes pas abonné à la bibliothèque.</p>
+                    </div>
                 </div>
             </div>
 
