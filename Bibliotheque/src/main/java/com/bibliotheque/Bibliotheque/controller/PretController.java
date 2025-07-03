@@ -1,7 +1,7 @@
 package com.bibliotheque.Bibliotheque.controller;
 
 import com.bibliotheque.Bibliotheque.model.Adherant;
-import com.bibliotheque.Bibliotheque.model.ExemplaireLivre;
+
 import com.bibliotheque.Bibliotheque.model.Livre;
 import com.bibliotheque.Bibliotheque.model.Pret;
 import com.bibliotheque.Bibliotheque.model.ReglePret;
@@ -12,8 +12,6 @@ import com.bibliotheque.Bibliotheque.service.LivreService;
 import com.bibliotheque.Bibliotheque.service.PretService;
 import com.bibliotheque.Bibliotheque.service.ReglePretService;
 import com.bibliotheque.Bibliotheque.service.TypePretService;
-
-import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,7 +24,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @Transactional
