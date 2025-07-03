@@ -32,7 +32,7 @@ public class Adherant {
     private LocalDate dateNaissance;
 
     @ManyToOne
-    @JoinColumn(name = "id_auteur", nullable = true)
+    @JoinColumn(name = "id_profil", nullable = true)
     private Profil profil;
 
     // Getters et Setters

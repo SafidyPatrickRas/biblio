@@ -11,16 +11,16 @@ public class Profil {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
-    private Long id;
+    private Integer id;
 
     @NotBlank(message = "Le nom de profil est obligatoire")
     private String nom;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
