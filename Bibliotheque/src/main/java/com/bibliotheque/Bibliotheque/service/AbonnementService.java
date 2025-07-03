@@ -53,4 +53,8 @@ public class AbonnementService {
     public Abonnement findById(int id) {
         return abonnementRepository.findById(id).orElse(null);
     }
+
+    public List<Abonnement> findAllByAdherantId(int idAdherant) {
+        return abonnementRepository.findByAdherantId(idAdherant);
+    }
 }

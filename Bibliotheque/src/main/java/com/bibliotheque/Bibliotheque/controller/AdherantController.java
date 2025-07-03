@@ -1,8 +1,10 @@
 package com.bibliotheque.Bibliotheque.controller;
 
 import com.bibliotheque.Bibliotheque.model.Adherant;
+import com.bibliotheque.Bibliotheque.model.Abonnement;
 import com.bibliotheque.Bibliotheque.model.Profil;
 import com.bibliotheque.Bibliotheque.service.AdherantService;
+import com.bibliotheque.Bibliotheque.service.AbonnementService;
 import com.bibliotheque.Bibliotheque.service.ProfilService;
 
 import jakarta.servlet.http.HttpSession;
@@ -16,8 +18,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -26,6 +30,9 @@ public class AdherantController {
 
     @Autowired
     private AdherantService adherantService;
+    
+    @Autowired
+    private AbonnementService abonnementService;
 
     @Autowired
     private ProfilService profilService;
@@ -136,15 +143,43 @@ public class AdherantController {
     }
 
     @GetMapping("/profil")
-    public String showProfil(Model model, HttpSession session) {
+    public String afficherProfil(Model model, HttpSession session) {
         Adherant adherant = (Adherant) session.getAttribute("adherant");
-        if (adherant == null) {
+
+        if(adherant == null) {
             return "redirect:/adherants/login";
         }
         model.addAttribute("adherant", adherant);
+        
+        // Vérifier si l'adhérent est abonné
+        boolean estAbonne = adherantService.estAbonneEnCeMoment(adherant.getId());
+        model.addAttribute("estAbonne", estAbonne);
+        
+        // Si abonné, trouver la date de fin la plus proche
+        if (estAbonne) {
+            Date dateCourante = new Date();
+            List<Abonnement> abonnements = abonnementService.findAllByAdherantId(adherant.getId());
+            Date dateFinPlusProche = null;
+            
+            for (Abonnement abonnement : abonnements) {
+                Date dateDebut = abonnement.getDateInscription();
+                Date dateFin = abonnement.getDateFinInscription();
+                
+                // Vérifier si l'abonnement est actif et si c'est la date de fin la plus proche
+                if (dateCourante.after(dateDebut) && dateCourante.before(dateFin)) {
+                    if (dateFinPlusProche == null || dateFin.before(dateFinPlusProche)) {
+                        dateFinPlusProche = dateFin;
+                    }
+                }
+            }
+            
+            if (dateFinPlusProche != null) {
+                model.addAttribute("dateFinAbonnement", dateFinPlusProche);
+            }
+        }
+
         model.addAttribute("page", "adherant/profil");
+        
         return "template";
     }
-
-    
 }
