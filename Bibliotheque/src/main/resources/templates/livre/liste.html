@@ -5,6 +5,22 @@
             <i class="fas fa-plus me-2"></i>Ajouter un livre
         </button>
     </div>
+    <!-- Ajoutez cette partie juste après votre titre -->
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="input-group">
+            <input type="text" 
+                   id="bookSearch" 
+                   class="form-control" 
+                   placeholder="Rechercher par titre, auteur, tags..."
+                   aria-label="Rechercher des livres">
+            <button class="btn btn-primary" type="button" id="searchButton">
+                <i class="fas fa-search"></i> Rechercher
+            </button>
+        </div>
+    </div>
+</div>
+
     
     <div class="table-responsive">
         <table class="table table-hover">
@@ -45,3 +61,71 @@
         </table>
     </div>
 </div>
+<<<<<<< Updated upstream
+=======
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('bookSearch');
+        const searchButton = document.getElementById('searchButton');
+        const bookCards = document.querySelectorAll('.col-md-12.mb-4');
+        
+        function performSearch() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            
+            if (searchTerm === '') {
+                // Si le champ est vide, tout réafficher
+                bookCards.forEach(card => {
+                    card.style.display = '';
+                });
+                return;
+            }
+            
+            let hasResults = false;
+            
+            bookCards.forEach(card => {
+                // Récupère toutes les données textuelles de la carte
+                const cardText = card.textContent.toLowerCase();
+                
+                if (cardText.includes(searchTerm)) {
+                    card.style.display = '';
+                    hasResults = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Afficher un message si aucun résultat
+            const noResults = document.getElementById('noResults');
+            if (!hasResults) {
+                if (!noResults) {
+                    const alert = document.createElement('div');
+                    alert.id = 'noResults';
+                    alert.className = 'alert alert-warning mt-3';
+                    alert.textContent = 'Aucun livre ne correspond à votre recherche';
+                    document.querySelector('.container').appendChild(alert);
+                }
+            } else if (noResults) {
+                noResults.remove();
+            }
+        }
+        
+        // Recherche au clic sur le bouton
+        searchButton.addEventListener('click', performSearch);
+        
+        // Recherche automatique quand le champ est vidé
+        searchInput.addEventListener('input', function() {
+            if (this.value.trim() === '') {
+                performSearch();
+            }
+        });
+        
+        // Recherche avec la touche Entrée
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+    });
+    </script>
+>>>>>>> Stashed changes
