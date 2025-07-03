@@ -21,11 +21,11 @@ public class ProfilService {
         profilRepository.save(profil);
     }
 
-    public Profil getById(Long id) {
+    public Profil getById(Integer id) {
         return profilRepository.findById(id).orElse(null);
     }
 
-    public void delete(Long id) {
+    public void delete(Integer id) {
         profilRepository.deleteById(id);
     }
 }

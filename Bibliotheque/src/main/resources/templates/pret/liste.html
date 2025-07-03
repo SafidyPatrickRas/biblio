@@ -1,0 +1,54 @@
+<div class="container mt-5">
+    <h2>Liste des prêts</h2>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <a href="/pret/nouveau" class="btn btn-primary">Nouveau prêt</a>
+        <a href="/pret/recherche" class="btn btn-secondary">Rechercher</a>
+    </div>
+
+    <!-- 🟡 Champ de recherche -->
+    <div class="mb-3">
+        <input type="text" id="searchInput" class="form-control" placeholder="Rechercher un prêt...">
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Adhérent</th>
+                    <th>Exemplaire</th>
+                    <th>Type de prêt</th>
+                    <th>Date de début</th>
+                    <th>Date de fin</th>
+                    <th>Rendre</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr th:each="pret : ${prets}">
+                    <td th:text="${pret.adherant.nom} + ' ' + ${pret.adherant.prenom}"></td>
+                    <td th:text="${pret.livre.titre} + ' - ' + ${pret.livre.auteur.nom} + ' ' + ${pret.livre.auteur.prenom}"></td>
+                    <td th:text="${pret.typePret.nom}"></td>
+                    <td th:text="${#dates.format(pret.dateDebut, 'dd/MM/yyyy')}"></td>
+                    <td th:text="${#dates.format(pret.dateFin, 'dd/MM/yyyy')}"></td>
+                    <td>
+                        <a th:href="@{/pret/rendre/{id}(id=${pret.id})}" class="btn btn-success" th:if="${!pret.isRetournee}">Rendre</a>
+                        <span th:if="${pret.isRetournee}">Déjà rendu</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- 🔧 Script JS -->
+<script>
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const filtre = this.value.toLowerCase();
+        const lignes = document.querySelectorAll('#tableBody tr');
+
+        lignes.forEach(row => {
+            const texte = row.innerText.toLowerCase();
+            row.style.display = texte.includes(filtre) ? '' : 'none';
+        });
+    });
+</script>
