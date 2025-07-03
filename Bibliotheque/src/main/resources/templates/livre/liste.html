@@ -15,54 +15,7 @@
                 <i class="fas fa-search"></i> Rechercher
             </button>
         </div>
-<<<<<<< Updated upstream
-    </div>
-</div>
 
-    
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th class="text-center">ID</th>
-                    <th>Titre</th>
-                    <th>Date de publication</th>
-                    <th>Pages</th>
-                    <th>Langue</th>
-                    <th>Tags</th>
-                    <th>Âge restriction</th>
-                    <th>Auteur</th>
-                    <th>Catégories</th>
-                    <th class="text-center">Nb. exemplaires</th> <!-- Ajout colonne -->
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="livre : ${livres}">
-                    <td class="text-center" th:text="${livre.id}"></td>
-                    <td th:text="${livre.titre}"></td>
-                    <td th:text="${livre.datePublication}"></td>
-                    <td class="text-center" th:text="${livre.nbPages}"></td>
-                    <td th:text="${livre.langue}"></td>
-                    <td th:text="${livre.tags}"></td>
-                    <td class="text-center" th:text="${livre.ageRestriction != null ? livre.ageRestriction : 'Aucune'}"></td>
-                    <td th:text="${livre.auteur.nom + ' ' + livre.auteur.prenom}"></td>
-                    <td>
-                        <div class="d-flex gap-1">
-                            <span th:each="categorie : ${livre.categories}" 
-                                  class="badge bg-primary rounded-pill me-1" 
-                                  th:text="${categorie.nom}"></span>
-                        </div>
-                    </td>
-                    <td class="text-center" th:text="${#lists.size(livre.exemplaires)}"></td> <!-- Affichage du nombre d'exemplaires -->
-                </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
-<<<<<<< Updated upstream
-=======
-
-=======
     </div>
 </div>
     
@@ -133,8 +86,7 @@
         </div>
     </div>
 </div>
-<!-- Script de recherche -->
->>>>>>> Stashed changes
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const searchInput = document.getElementById('bookSearch');
@@ -199,7 +151,3 @@
         });
     });
     </script>
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes

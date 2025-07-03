@@ -48,7 +48,7 @@ public class AdherantController {
             session.setAttribute("adherant", adherant); // Sauvegarde en session
             redirectAttrs.addFlashAttribute("message", "Connexion réussie !");
             redirectAttrs.addFlashAttribute("alertClass", "alert-success");
-            return "redirect:/adherants/success";
+            return "redirect:/";
         } else {
             redirectAttrs.addFlashAttribute("message", "Email ou mot de passe incorrect");
             redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
