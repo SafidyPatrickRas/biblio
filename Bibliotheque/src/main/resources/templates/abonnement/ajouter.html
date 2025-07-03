@@ -1,0 +1,38 @@
+
+    <div class="container mt-5">
+        <h2>Ajouter un Abonnement</h2>
+        
+        <!-- Messages de succès ou d'erreur -->
+        <div th:if="${success}" class="alert alert-success">
+            <p th:text="${success}"></p>
+        </div>
+        
+        <div th:if="${error}" class="alert alert-danger">
+            <p th:text="${error}"></p>
+        </div>
+
+        <form th:action="@{/abonnement/ajouter}" method="post" class="mt-4">
+            <div class="mb-3">
+                <label for="emailAdherant" class="form-label">Email de l'Adhérent</label>
+                <input list="adherants" class="form-control" id="emailAdherant" name="emailAdherant" required>
+                <datalist id="adherants">
+                    <option th:each="adherant : ${adherants}"
+                            th:value="${adherant.email}"
+                            th:text="${adherant.email}">
+                    </option>
+                </datalist>
+            </div>
+
+            <div class="mb-3">
+                <label for="dateInscription" class="form-label">Date d'inscription</label>
+                <input type="date" class="form-control" id="dateInscription" name="dateInscription" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="dateFinInscription" class="form-label">Date de fin d'inscription</label>
+                <input type="date" class="form-control" id="dateFinInscription" name="dateFinInscription" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Ajouter l'abonnement</button>
+        </form>
+    </div>
