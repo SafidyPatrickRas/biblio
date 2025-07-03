@@ -1,0 +1,27 @@
+
+
+<div class="container mt-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Liste des pénalités</h2>
+        <a href="/penalites/ajouter" class="btn btn-success">+ Ajouter une pénalité</a>
+    </div>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Adhérant</th>
+                <th>Date début</th>
+                <th>Date fin</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="penalite : ${penalites}">
+                <td th:text="${penalite.id}"></td>
+                <td th:text="${penalite.adherant.nom + ' ' + penalite.adherant.prenom}"></td>
+                <td th:text="${penalite.dateDebut}"></td>
+                <td th:text="${penalite.dateFin}"></td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
