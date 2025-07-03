@@ -5,6 +5,7 @@ import com.bibliotheque.Bibliotheque.model.Profil;
 import com.bibliotheque.Bibliotheque.service.AdherantService;
 import com.bibliotheque.Bibliotheque.service.ProfilService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +40,12 @@ public class AdherantController {
     @PostMapping("/login")
     public String processLogin(@ModelAttribute("email") String email,
                               @ModelAttribute("motDePasse") String motDePasse,
-                              RedirectAttributes redirectAttrs) {
+                              RedirectAttributes redirectAttrs,
+                              HttpSession session) {
         Adherant adherant = adherantService.authenticate(email, motDePasse);
         
         if (adherant != null) {
+            session.setAttribute("adherant", adherant); // Sauvegarde en session
             redirectAttrs.addFlashAttribute("message", "Connexion réussie !");
             redirectAttrs.addFlashAttribute("alertClass", "alert-success");
             return "redirect:/adherants/success";
@@ -108,7 +111,7 @@ public class AdherantController {
         }
         
         // Rediriger vers une page de confirmation
-        return "redirect:/adherants/success";
+        return "redirect:/";
     }
 
     private boolean isValidPassword(String password) {
@@ -123,4 +126,25 @@ public class AdherantController {
         model.addAttribute("page", "adherant/success");
         return "template";
     }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session, RedirectAttributes redirectAttrs) {
+        session.invalidate(); // Supprime la session
+        redirectAttrs.addFlashAttribute("message", "Vous avez été déconnecté avec succès !");
+        redirectAttrs.addFlashAttribute("alertClass", "alert-success");
+        return "redirect:/"; // Redirige vers la page d'accueil
+    }
+
+    @GetMapping("/profil")
+    public String showProfil(Model model, HttpSession session) {
+        Adherant adherant = (Adherant) session.getAttribute("adherant");
+        if (adherant == null) {
+            return "redirect:/adherants/login";
+        }
+        model.addAttribute("adherant", adherant);
+        model.addAttribute("page", "adherant/profil");
+        return "template";
+    }
+
+    
 }

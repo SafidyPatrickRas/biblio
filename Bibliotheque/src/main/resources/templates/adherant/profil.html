@@ -1,0 +1,27 @@
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title mb-4">Mon Profil</h2>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <p class="mb-1"><strong>Nom:</strong> <span th:text="${adherant.nom}"></span></p>
+                    <p class="mb-1"><strong>Prénom:</strong> <span th:text="${adherant.prenom}"></span></p>
+                    <p class="mb-1"><strong>Email:</strong> <span th:text="${adherant.email}"></span></p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-1"><strong>Date de naissance:</strong> <span th:text="${adherant.dateNaissance}"></span></p>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <a href="/adherants/modifier" class="btn btn-primary me-2">
+                    <i class="fas fa-edit me-1"></i> Modifier mon profil
+                </a>
+                <a href="/adherants/logout" class="btn btn-danger">
+                    <i class="fas fa-sign-out-alt me-1"></i> Déconnexion
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

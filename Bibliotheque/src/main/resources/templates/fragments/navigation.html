@@ -18,11 +18,40 @@
                         <li><a class="dropdown-item" href="/livres/categorie">Catégories</a></li>
                     </ul>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/adherants/inscription">Inscription</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/adherants/login">Connexion</a>
+            </ul>
+            
+            <!-- Menu utilisateur à droite -->
+            <ul class="navbar-nav">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user me-1"></i>
+                        <span th:if="${session.adherant != null}" th:text="${session.adherant.prenom}"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li th:if="${session.adherant == null}">
+                            <a class="dropdown-item" href="/adherants/inscription">
+                                <i class="fas fa-user-plus me-1"></i> Inscription
+                            </a>
+                        </li>
+                        <li th:if="${session.adherant == null}">
+                            <a class="dropdown-item" href="/adherants/login">
+                                <i class="fas fa-sign-in-alt me-1"></i> Connexion
+                            </a>
+                        </li>
+                        <li th:if="${session.adherant != null}">
+                            <a class="dropdown-item" href="/adherants/profil">
+                                <i class="fas fa-user-circle me-1"></i> Mon Profil
+                            </a>
+                        </li>
+                        <li th:if="${session.adherant != null}">
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li th:if="${session.adherant != null}">
+                            <a class="dropdown-item" href="/adherants/logout">
+                                <i class="fas fa-sign-out-alt me-1"></i> Déconnexion
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>
