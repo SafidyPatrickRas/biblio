@@ -1,9 +1,13 @@
 package com.bibliotheque.Bibliotheque.controller;
 
 import com.bibliotheque.Bibliotheque.model.Adherant;
+import com.bibliotheque.Bibliotheque.model.Penalite;
+import com.bibliotheque.Bibliotheque.model.Pret;
 import com.bibliotheque.Bibliotheque.model.Abonnement;
 import com.bibliotheque.Bibliotheque.model.Profil;
 import com.bibliotheque.Bibliotheque.service.AdherantService;
+import com.bibliotheque.Bibliotheque.service.PenaliteService;
+import com.bibliotheque.Bibliotheque.service.PretService;
 import com.bibliotheque.Bibliotheque.service.AbonnementService;
 import com.bibliotheque.Bibliotheque.service.ProfilService;
 
@@ -35,6 +39,12 @@ public class AdherantController {
 
     @Autowired
     private ProfilService profilService;
+
+    @Autowired
+    private PretService pretService;
+
+    @Autowired
+    private PenaliteService penaliteService;
 
     // Afficher le formulaire d'insertion d'un nouvel adhérant
     @GetMapping("/login")
@@ -148,7 +158,27 @@ public class AdherantController {
         if(adherant == null) {
             return "redirect:/adherants/login";
         }
+
+        //  liste des livres en pret actuel
+
+        List<Pret> prets = pretService.getLivresNonRetournesParAdherent(adherant.getId());
+
+        model.addAttribute("prets", prets);
         model.addAttribute("adherant", adherant);
+
+        // En penalite ou pas 
+        boolean enPenalite = penaliteService.estEnPenalite(adherant);
+
+
+        if(enPenalite){
+            // Récupérer la dernière pénalité active
+            Penalite dernierePenalite = penaliteService.trouverDernierePenalite(adherant);
+            model.addAttribute("dernierePenalite", dernierePenalite);
+        } else {
+            model.addAttribute("dernierePenalite", null);
+        }
+
+        model.addAttribute("enPenalite", enPenalite);
         
         // Vérifier si l'adhérent est abonné
         boolean estAbonne = adherantService.estAbonneEnCeMoment(adherant.getId());

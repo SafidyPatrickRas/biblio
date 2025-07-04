@@ -9,6 +9,7 @@ import com.bibliotheque.Bibliotheque.model.TypePret;
 import com.bibliotheque.Bibliotheque.service.AdherantService;
 import com.bibliotheque.Bibliotheque.service.ExemplaireLivreService;
 import com.bibliotheque.Bibliotheque.service.LivreService;
+import com.bibliotheque.Bibliotheque.service.PenaliteService;
 import com.bibliotheque.Bibliotheque.service.PretService;
 import com.bibliotheque.Bibliotheque.service.ReglePretService;
 import com.bibliotheque.Bibliotheque.service.TypePretService;
@@ -48,6 +49,9 @@ public class PretController {
     @Autowired
     private ReglePretService reglePretService;
 
+    @Autowired
+    PenaliteService penaliteService;
+
     @PostMapping("/ajouter")
 public String enregistrerPret(
     @RequestParam String adherantEmail,
@@ -65,6 +69,13 @@ public String enregistrerPret(
         redirectAttrs.addFlashAttribute("message", "L'adhérent n'est pas abonné en ce moment");
         redirectAttrs.addFlashAttribute("alertClass", "alert-warning");
             
+        return "redirect:/pret/ajouter";
+    }
+
+    //  si l adherant es en penalite
+    if (penaliteService.estEnPenalite(adherant)) {
+        redirectAttrs.addFlashAttribute("message", "L'adhérent est en pénalité et ne peut pas emprunter de livres");
+        redirectAttrs.addFlashAttribute("alertClass", "alert-warning");
         return "redirect:/pret/ajouter";
     }
 
