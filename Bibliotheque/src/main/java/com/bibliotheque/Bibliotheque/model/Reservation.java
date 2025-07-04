@@ -2,6 +2,8 @@ package com.bibliotheque.Bibliotheque.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+
+import java.sql.Date;
 import java.time.LocalDate;
 
 @Entity
@@ -13,16 +15,20 @@ public class Reservation {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "pret_id", nullable = false)
-    private Pret pret;
+    @JoinColumn(name = "livre_id", nullable = false)
+    private Livre livre;
 
     @NotNull(message = "La date de réservation est obligatoire")
     @Column(name = "date_reservation", nullable = false)
-    private LocalDate dateReservation;
+    private Date dateReservation;
 
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
     private Status status;
+
+    @ManyToOne
+@JoinColumn(name = "adherant_id", nullable = false)
+private Adherant adherant;
 
     // Getters et Setters
 
@@ -34,19 +40,19 @@ public class Reservation {
         this.id = id;
     }
 
-    public Pret getPret() {
-        return pret;
+    public Livre getPret() {
+        return livre;
     }
 
-    public void setPret(Pret pret) {
-        this.pret = pret;
+    public void setPret(Livre livre) {
+        this.livre =livre;
     }
 
-    public LocalDate getDateReservation() {
+    public Date getDateReservation() {
         return dateReservation;
     }
 
-    public void setDateReservation(LocalDate dateReservation) {
+    public void setDateReservation(Date dateReservation) {
         this.dateReservation = dateReservation;
     }
 
@@ -57,4 +63,19 @@ public class Reservation {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public Adherant getAdherant() {
+    return adherant;
+}
+
+public void setAdherant(Adherant adherant) {
+    this.adherant = adherant;
+}
+
+public Livre getLivre() {
+    return livre;
+}
+public void setLivre(Livre livre) {
+    this.livre = livre;
+}
 }

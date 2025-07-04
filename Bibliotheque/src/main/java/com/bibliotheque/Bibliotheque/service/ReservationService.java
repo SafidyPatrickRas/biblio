@@ -34,4 +34,7 @@ public class ReservationService {
     public List<Reservation> findByStatusNom(String nom) {
         return reservationRepository.findByStatus_Nom(nom);
     }
+    public List<Reservation> findByAdherantId(Integer adherantId) {
+    return reservationRepository.findByAdherant_Id(adherantId);
+}
 }

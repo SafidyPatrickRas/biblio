@@ -1,153 +1,246 @@
 <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="text-primary"><i class="fas fa-book me-2"></i>Liste des livres</h2>
-    </div>
-    <!-- Ajoutez cette partie juste après votre titre -->
-<div class="row mb-4">
-    <div class="col-md-8">
-        <div class="input-group">
-            <input type="text" 
-                   id="bookSearch" 
-                   class="form-control" 
-                   placeholder="Rechercher par titre, auteur, tags..."
-                   aria-label="Rechercher des livres">
-            <button class="btn btn-primary" type="button" id="searchButton">
-                <i class="fas fa-search"></i> Rechercher
-            </button>
-        </div>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="text-primary">
+      <i class="fas fa-book me-2"></i>Liste des livres
+    </h2>
+  </div>
 
+  <!-- Barre de recherche -->
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <div class="input-group">
+        <input
+          type="text"
+          id="bookSearch"
+          class="form-control"
+          placeholder="Rechercher par titre, auteur, tags..."
+          aria-label="Rechercher des livres"
+        />
+        <button class="btn btn-primary" type="button" id="searchButton">
+          <i class="fas fa-search"></i> Rechercher
+        </button>
+      </div>
     </div>
-</div>
-    
-    <div class="row">
-        <div th:each="livre : ${livres}" class="col-md-12 mb-4">
-            <div class="card">
-                <div class="row g-0">
-                    <!-- Image à gauche -->
-                    <div class="col-md-3">
-                        <img th:src="@{https://via.placeholder.com/300x400?text=Cover+${livre.id}}" 
-                             class="img-fluid rounded-start h-100" 
-                             alt="Couverture du livre">
-                    </div>
-                    
-                    <!-- Informations à droite -->
-                    <div class="col-md-9">
-                        <div class="card-body">
-                            <h3 class="card-title text-primary" th:text="${livre.titre}"></h3>
-                            
-                            <div class="row mb-2">
-                                <div class="col-md-6">
-                                    <p class="mb-1"><strong>Auteur:</strong> 
-                                        <span th:text="${livre.auteur.nom + ' ' + livre.auteur.prenom}"></span>
-                                    </p>
-                                    <p class="mb-1"><strong>Date publication:</strong> 
-                                        <span th:text="${livre.datePublication}"></span>
-                                    </p>
-                                    <p class="mb-1"><strong>Pages:</strong> 
-                                        <span th:text="${livre.nbPages}"></span>
-                                    </p>
-                                </div>
-                                <div class="col-md-6">
-                                    <p class="mb-1"><strong>Langue:</strong> 
-                                        <span th:text="${livre.langue}"></span>
-                                    </p>
-                                    <p class="mb-1"><strong>Âge restriction:</strong> 
-                                        <span th:text="${livre.ageRestriction != null ? livre.ageRestriction : 'Aucune'}"></span>
-                                    </p>
-                                    <p class="mb-1"><strong>Exemplaires:</strong> 
-                                        <span th:text="${livre.exemplaires[0].nombreExemplaires}"></span>
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-2">
-                                <strong>Tags:</strong> 
-                                <span th:text="${livre.tags}"></span>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <strong>Catégories:</strong>
-                                <div class="d-flex flex-wrap gap-1 mt-1">
-                                    <span th:each="categorie : ${livre.categories}" 
-                                          class="badge bg-primary rounded-pill" 
-                                          th:text="${categorie.nom}"></span>
-                                </div>
-                            </div>
-                            
-                            <div class="d-flex justify-content-end">
-                                <a th:href="@{'/livres/' + ${livre.id}}" class="btn btn-outline-primary me-2">
-                                    <i class="fas fa-eye me-1"></i> Voir détails
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+  </div>
+
+  <!-- Liste des livres -->
+  <div class="row">
+    <div th:each="livre : ${livres}" class="col-md-12 mb-4">
+      <div class="card">
+        <div class="row g-0">
+          <!-- Image -->
+          <div class="col-md-3">
+            <img
+              th:src="@{https://via.placeholder.com/300x400?text=Cover+${livre.id}}"
+              class="img-fluid rounded-start h-100"
+              alt="Couverture du livre"
+            />
+          </div>
+
+          <!-- Infos -->
+          <div class="col-md-9">
+            <div class="card-body">
+              <h3 class="card-title text-primary" th:text="${livre.titre}"></h3>
+
+              <div class="row mb-2">
+                <div class="col-md-6">
+                  <p>
+                    <strong>Auteur:</strong>
+                    <span
+                      th:text="${livre.auteur.nom + ' ' + livre.auteur.prenom}"
+                    ></span>
+                  </p>
+                  <p>
+                    <strong>Date publication:</strong>
+                    <span th:text="${livre.datePublication}"></span>
+                  </p>
+                  <p>
+                    <strong>Pages:</strong>
+                    <span th:text="${livre.nbPages}"></span>
+                  </p>
                 </div>
+                <div class="col-md-6">
+                  <p>
+                    <strong>Langue:</strong>
+                    <span th:text="${livre.langue}"></span>
+                  </p>
+                  <p>
+                    <strong>Âge restriction:</strong>
+                    <span
+                      th:text="${livre.ageRestriction != null ? livre.ageRestriction : 'Aucune'}"
+                    ></span>
+                  </p>
+                  <p>
+                    <strong>Exemplaires:</strong>
+                    <span
+                      th:text="${livre.exemplaires[0].nombreExemplaires}"
+                    ></span>
+                  </p>
+                </div>
+              </div>
+
+              <div class="mb-2">
+                <strong>Tags:</strong>
+                <span th:text="${livre.tags}"></span>
+              </div>
+
+              <div class="mb-3">
+                <strong>Catégories:</strong>
+                <div class="d-flex flex-wrap gap-1 mt-1">
+                  <span
+                    th:each="categorie : ${livre.categories}"
+                    class="badge bg-primary rounded-pill"
+                    th:text="${categorie.nom}"
+                  ></span>
+                </div>
+              </div>
+
+              <!-- Boutons alignés à droite -->
+              <div class="d-flex justify-content-end align-items-center gap-2">
+                <!-- Bouton pour ouvrir le modal - Modification clé -->
+                <button
+                  type="button"
+                  class="btn btn-sm btn-warning"
+                  data-bs-toggle="modal"
+                  th:attr="data-bs-target='#reservationModal-' + ${livre.id}"
+                >
+                  <i class="fas fa-calendar-plus me-1"></i> Demander réservation
+                </button>
+
+                <a
+                  th:href="@{'/livres/' + ${livre.id}}"
+                  class="btn btn-sm btn-outline-primary"
+                >
+                  <i class="fas fa-eye me-1"></i> Voir détails
+                </a>
+              </div>
             </div>
+          </div>
         </div>
+      </div>
+
+      <!-- Modal de réservation -->
+
+      <!-- Modal de réservation -->
+      <div
+        class="modal fade"
+        th:id="'reservationModal-' + ${livre.id}"
+        tabindex="-1"
+        aria-labelledby="modalTitle-${livre.id}"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <form th:action="@{/reservations/ajouter}" method="post">
+              <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle-${livre.id}">
+                  Réserver: <span th:text="${livre.titre}"></span>
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Fermer"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <input type="hidden" name="livreId" th:value="${livre.id}" />
+
+                <div class="mb-3">
+                  <label for="reservationDate-${livre.id}" class="form-label">
+                    Date souhaitée
+                  </label>
+                  <input
+                    type="date"
+                    id="reservationDate-${livre.id}"
+                    name="dateReservation"
+                    class="form-control"
+                    required
+                  />
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Fermer
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  Envoyer la demande
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <!-- Fin du modal -->
     </div>
+  </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('bookSearch');
-        const searchButton = document.getElementById('searchButton');
-        const bookCards = document.querySelectorAll('.col-md-12.mb-4');
-        
-        function performSearch() {
-            const searchTerm = searchInput.value.trim().toLowerCase();
-            
-            if (searchTerm === '') {
-                // Si le champ est vide, tout réafficher
-                bookCards.forEach(card => {
-                    card.style.display = '';
-                });
-                return;
-            }
-            
-            let hasResults = false;
-            
-            bookCards.forEach(card => {
-                // Récupère toutes les données textuelles de la carte
-                const cardText = card.textContent.toLowerCase();
-                
-                if (cardText.includes(searchTerm)) {
-                    card.style.display = '';
-                    hasResults = true;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-            
-            // Afficher un message si aucun résultat
-            const noResults = document.getElementById('noResults');
-            if (!hasResults) {
-                if (!noResults) {
-                    const alert = document.createElement('div');
-                    alert.id = 'noResults';
-                    alert.className = 'alert alert-warning mt-3';
-                    alert.textContent = 'Aucun livre ne correspond à votre recherche';
-                    document.querySelector('.container').appendChild(alert);
-                }
-            } else if (noResults) {
-                noResults.remove();
-            }
+  document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("bookSearch");
+    const searchButton = document.getElementById("searchButton");
+    const bookCards = document.querySelectorAll(".col-md-12.mb-4");
+
+    function performSearch() {
+      const searchTerm = searchInput.value.trim().toLowerCase();
+
+      if (searchTerm === "") {
+        // Si le champ est vide, tout réafficher
+        bookCards.forEach((card) => {
+          card.style.display = "";
+        });
+        return;
+      }
+
+      let hasResults = false;
+
+      bookCards.forEach((card) => {
+        // Récupère toutes les données textuelles de la carte
+        const cardText = card.textContent.toLowerCase();
+
+        if (cardText.includes(searchTerm)) {
+          card.style.display = "";
+          hasResults = true;
+        } else {
+          card.style.display = "none";
         }
-        
-        // Recherche au clic sur le bouton
-        searchButton.addEventListener('click', performSearch);
-        
-        // Recherche automatique quand le champ est vidé
-        searchInput.addEventListener('input', function() {
-            if (this.value.trim() === '') {
-                performSearch();
-            }
-        });
-        
-        // Recherche avec la touche Entrée
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                performSearch();
-            }
-        });
+      });
+
+      // Afficher un message si aucun résultat
+      const noResults = document.getElementById("noResults");
+      if (!hasResults) {
+        if (!noResults) {
+          const alert = document.createElement("div");
+          alert.id = "noResults";
+          alert.className = "alert alert-warning mt-3";
+          alert.textContent = "Aucun livre ne correspond à votre recherche";
+          document.querySelector(".container").appendChild(alert);
+        }
+      } else if (noResults) {
+        noResults.remove();
+      }
+    }
+
+    // Recherche au clic sur le bouton
+    searchButton.addEventListener("click", performSearch);
+
+    // Recherche automatique quand le champ est vidé
+    searchInput.addEventListener("input", function () {
+      if (this.value.trim() === "") {
+        performSearch();
+      }
     });
-    </script>
+
+    // Recherche avec la touche Entrée
+    searchInput.addEventListener("keypress", function (e) {
+      if (e.key === "Enter") {
+        performSearch();
+      }
+    });
+  });
+</script>

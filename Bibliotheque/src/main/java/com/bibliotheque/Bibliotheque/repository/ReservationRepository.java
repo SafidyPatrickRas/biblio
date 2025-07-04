@@ -10,4 +10,5 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
     // Récupérer toutes les réservations par nom de status
     List<Reservation> findByStatus_Nom(String nom);
+    List<Reservation> findByAdherant_Id(Integer adherantId);
 }

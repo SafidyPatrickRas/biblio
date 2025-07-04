@@ -29,4 +29,7 @@ public class StatusService {
     public void deleteById(Integer id) {
         statusRepository.deleteById(id);
     }
+    public Optional<Status> findByNom(String nom) {
+        return statusRepository.findByNom(nom); 
+    }
 }
