@@ -1,122 +1,119 @@
+
 <div class="container mt-4">
-  <div class="card">
-    <div class="card-body">
-      <h2 class="card-title mb-4">Mon Profil</h2>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title mb-4">Mon Profil</h2>
 
-      <div class="row mb-3">
-        <div class="col-md-6">
-          <h4>Informations personnelles</h4>
-          <p><strong>Nom :</strong> <span th:text="${adherant.nom}"></span></p>
-          <p>
-            <strong>Prénom :</strong> <span th:text="${adherant.prenom}"></span>
-          </p>
-          <p>
-            <strong>Email :</strong> <span th:text="${adherant.email}"></span>
-          </p>
-        </div>
-        <div class="col-md-6">
-          <p>
-            <strong>Date de naissance :</strong>
-            <span th:text="${adherant.dateNaissance}"></span>
-          </p>
-        </div>
-      </div>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h4>Informations personnelles</h4>
+                    <p><strong>Nom :</strong> <span th:text="${adherant.nom}"></span></p>
+                    <p><strong>Prénom :</strong> <span th:text="${adherant.prenom}"></span></p>
+                    <p><strong>Email :</strong> <span th:text="${adherant.email}"></span></p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Date de naissance :</strong> <span th:text="${adherant.dateNaissance}"></span></p>
+                </div>
+            </div>
 
-      <div class="row mt-4">
-        <div class="col-md-6">
-          <h4>Statut d'abonnement</h4>
-          <div th:if="${estAbonne}" class="alert alert-success">
-            <p>Vous êtes actuellement abonné à la bibliothèque.</p>
-            <p>
-              Votre abonnement expire le :
-              <strong
-                th:text="${#dates.format(dateFinAbonnement, 'dd/MM/yyyy')}"
-              ></strong>
-            </p>
-          </div>
-          <div th:unless="${estAbonne}" class="alert alert-warning">
-            <p>Vous n'êtes pas abonné à la bibliothèque.</p>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <h4>Pénalité</h4>
-          <div th:if="${enPenalite}" class="alert alert-danger">
-            <p><strong>Vous êtes actuellement pénalisé.</strong></p>
-            <p>
-              Début :
-              <span
-                th:text="${#temporals.format(dernierePenalite.dateDebut, 'dd/MM/yyyy')}"
-              ></span>
-            </p>
-            <p>
-              Fin :
-              <span
-                th:text="${#temporals.format(dernierePenalite.dateFin, 'dd/MM/yyyy')}"
-              ></span>
-            </p>
-          </div>
-          <div th:unless="${enPenalite}" class="alert alert-success">
-            <p>Aucune pénalité en cours.</p>
-          </div>
-        </div>
-      </div>
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <h4>Statut d'abonnement</h4>
+                    <div th:if="${estAbonne}" class="alert alert-success">
+                        <p>Vous êtes actuellement abonné à la bibliothèque.</p>
+                        <p>Votre abonnement expire le : <strong th:text="${#dates.format(dateFinAbonnement, 'dd/MM/yyyy')}"></strong></p>
+                    </div>
+                    <div th:unless="${estAbonne}" class="alert alert-warning">
+                        <p>Vous n'êtes pas abonné à la bibliothèque.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h4>Pénalité</h4>
+                    <div th:if="${enPenalite}" class="alert alert-danger">
+                        <p><strong>Vous êtes actuellement pénalisé.</strong></p>
+                        <p>Début : <span th:text="${#temporals.format(dernierePenalite.dateDebut, 'dd/MM/yyyy')}"></span></p>
+                        <p>Fin : <span th:text="${#temporals.format(dernierePenalite.dateFin, 'dd/MM/yyyy')}"></span></p>
+                    </div>
+                    <div th:unless="${enPenalite}" class="alert alert-success">
+                        <p>Aucune pénalité en cours.</p>
+                    </div>
+                </div>
+            </div>
 
-      <div class="row mt-4">
-        <div class="col-12">
-          <h4>Livres en cours de prêt</h4>
-          <div th:if="${prets.size() > 0}">
-            <!-- ... Liste des prêts ... -->
-            <ul class="list-group">
-              <li class="list-group-item" th:each="pret : ${prets}">
-                <strong th:text="${pret.livre.titre}"></strong>
-                <span> – emprunté le </span>
-                <span
-                  th:text="${#dates.format(pret.dateDebut, 'dd/MM/yyyy')}"
-                ></span>
-                <span>, à rendre le </span>
-                <span
-                  th:text="${#dates.format(pret.dateFin, 'dd/MM/yyyy')}"
-                ></span>
-              </li>
-            </ul>
-          </div>
-          <div th:if="${prets.size() == 0}" class="alert alert-info mt-2">
-            Aucun livre actuellement en prêt.
-          </div>
+            <div class="row mt-4">
+                <div class="col-12">
+                    <h4>Livres en cours de prêt</h4>
+                    <div th:if="${prets.size() > 0}">
+                        <ul class="list-group">
+                            <li class="list-group-item" th:each="pret : ${prets}">
+                                <strong th:text="${pret.livre.titre}"></strong>
+                                <span> – emprunté le </span>
+                                <span th:text="${#dates.format(pret.dateDebut, 'dd/MM/yyyy')}"></span>
+                                <span>, à rendre le </span>
+                                <span th:text="${#dates.format(pret.dateFin, 'dd/MM/yyyy')}"></span>
+                                <button th:if="${prolongementService.getProlongementByPret(pret) == null}" type="button" class="btn btn-sm btn-primary ms-2" onclick="window.location.href='/prolongements/creer/${pret.id}'">Demander un prolongement</button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div th:if="${prets.size() == 0}" class="alert alert-info mt-2">
+                        Aucun livre actuellement en prêt.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12">
+                    <h4>Mes prolongements</h4>
+                    <div th:if="${prolongements != null and prolongements.size() > 0}">
+                        <ul class="list-group">
+                            <li class="list-group-item" th:each="prolongement : ${prolongements}">
+                                <strong th:text="${prolongement.pret.livre.titre}"></strong>
+                                <span> – prolongé le </span>
+                                <span th:text="${#dates.format(prolongement.dateProlongement, 'dd/MM/yyyy')}"></span>
+                                <span>, nouvelle date de retour : </span>
+                                <span th:text="${#dates.format(prolongement.dateFin, 'dd/MM/yyyy')}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div th:if="${prolongements == null or prolongements.size() == 0}" class="alert alert-info mt-2">
+                        Aucun prolongement en cours.
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-12">
+                    <h4>Mes réservations</h4>
+                    <div th:if="${reservations != null and reservations.size() > 0}">
+                        <ul class="list-group">
+                            <li class="list-group-item" th:each="reservation : ${reservations}">
+                                <strong th:text="${reservation.livre.titre}"></strong>
+                                <span> (</span>
+                                <span th:text="${reservation.livre.auteur.nom}"></span>
+                                <span> - </span>
+                                <span th:text="${reservation.livre.auteur.prenom}"></span>
+                                <span>)</span>
+                                <span> – réservée le </span>
+                                <span th:text="${#dates.format(reservation.dateReservation, 'dd/MM/yyyy')}"></span>
+                                <span> – Statut : </span>
+                                <span th:text="${reservation.status.nom}"></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div th:if="${reservations == null or reservations.size() == 0}" class="alert alert-info mt-2">
+                        Aucune réservation en cours.
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <a href="/adherants/modifier" class="btn btn-primary me-2">
+                    <i class="fas fa-edit me-1"></i> Modifier mon profil
+                </a>
+                <a href="/adherants/logout" class="btn btn-danger">
+                    <i class="fas fa-sign-out-alt me-1"></i> Déconnexion
+                </a>
+            </div>
         </div>
-      </div>
-      <div class="row mt-4">
-  <div class="col-12">
-    <h4>Mes réservations</h4>
-    <div th:if="${reservations != null and reservations.size() > 0}">
-      <ul class="list-group">
-        <li class="list-group-item" th:each="reservation : ${reservations}">
-          <strong th:text="${reservation.livre.titre}"></strong>
-          <span> (</span>
-          <span th:text="${reservation.livre.auteur.nom}"></span>
-          <span> - </span>
-          <span th:text="${reservation.livre.auteur.prenom}"></span>
-          <span>)</span>
-          <span> – réservée le </span>
-          <span th:text="${#dates.format(reservation.dateReservation, 'dd/MM/yyyy')}"></span>
-          <span> – Statut : </span>
-          <span th:text="${reservation.status.nom}"></span>
-        </li>
-      </ul>
     </div>
-    <div th:if="${reservations == null or reservations.size() == 0}" class="alert alert-info mt-2">
-      Aucune réservation en cours.
-    </div>
-  </div>
-</div>
-      <div class="mt-4">
-        <a href="/adherants/modifier" class="btn btn-primary me-2">
-          <i class="fas fa-edit me-1"></i> Modifier mon profil
-        </a>
-        <a href="/adherants/logout" class="btn btn-danger">
-          <i class="fas fa-sign-out-alt me-1"></i> Déconnexion
-        </a>
-      </div>
-    </div>
-  </div>
 </div>

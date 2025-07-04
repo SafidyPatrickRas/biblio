@@ -26,7 +26,15 @@ public class ReservationService {
         return reservationRepository.save(reservation);
     }
 
-    public void deleteById(Integer id) {
+    public Reservation createReservation(Reservation reservation) {
+        return reservationRepository.save(reservation);
+    }
+
+    public Reservation updateReservation(Reservation reservation) {
+        return reservationRepository.save(reservation);
+    }
+
+    public void deleteReservation(Integer id) {
         reservationRepository.deleteById(id);
     }
 
@@ -34,7 +42,17 @@ public class ReservationService {
     public List<Reservation> findByStatusNom(String nom) {
         return reservationRepository.findByStatus_Nom(nom);
     }
+
     public List<Reservation> findByAdherantId(Integer adherantId) {
-    return reservationRepository.findByAdherant_Id(adherantId);
-}
+        return reservationRepository.findByAdherant_Id(adherantId);
+    }
+
+    // Méthodes de comptage
+    public long countAll() {
+        return reservationRepository.count();
+    }
+
+    public long countEnCours() {
+        return reservationRepository.countByStatus_Nom("En cours");
+    }
 }

@@ -1,7 +1,9 @@
 package com.bibliotheque.Bibliotheque.service;
 
+import com.bibliotheque.Bibliotheque.model.Adherant;
 import com.bibliotheque.Bibliotheque.model.Livre;
 import com.bibliotheque.Bibliotheque.model.Pret;
+import com.bibliotheque.Bibliotheque.repository.AdherantRepository;
 import com.bibliotheque.Bibliotheque.repository.PretRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.StackWalker.Option;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,12 +39,12 @@ public class PretService {
         return null; // ou lancer une exception si nécessaire
     }
 
-    public List<Pret> getPretsByAdherant(Integer idAdherant) {
-        return pretRepository.findByAdherant_Id(idAdherant);
+    public List<Pret> getPretsByAdherantId(Integer idAdherant) {
+        return pretRepository.findByAdherantId(idAdherant);
     }
 
     public List<Pret> getPretsByDateRange(Date dateDebut, Date dateFin) {
-        return pretRepository.findByDateFinBeforeAndDateFinAfter(dateDebut, dateFin);
+        return pretRepository.findByDateFinBetween(dateDebut, dateFin);
     }
 
     // Compter tous les prêts non retournés
@@ -65,6 +70,26 @@ public class PretService {
         return pretRepository.save(pret);
     }
 
+    @Transactional
+    public String rendrePret(Integer id, Date dateRendu) {
+        String message = "";
+        Pret pret = pretRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Prêt non trouvé"));
+
+        if (pret.getIsRetournee()) {
+            message = "Ce prêt a déjà été rendu";
+        }
+
+        pret.setIsRetournee(true);
+        pret.setDateRendu(dateRendu);
+        pretRepository.save(pret);
+
+        if (dateRendu.after(pret.getDateFin())) {
+            message = "Retard détecté. Redirection vers le formulaire de pénalité";
+        }
+        return message;
+    }
+
     public void deletePret(Integer id) {
         pretRepository.deleteById(id);
     }
@@ -77,7 +102,7 @@ public class PretService {
     public List<Pret> getPretsActifsPourLivre(Integer livreId) {
         return pretRepository.findByIsRetourneeFalseAndLivreId(livreId);
     }
-    
+
     // Alternative avec l'entité Livre
     public List<Pret> getPretsActifsPourLivre(Livre livre) {
         return pretRepository.findByIsRetourneeFalseAndLivre(livre);

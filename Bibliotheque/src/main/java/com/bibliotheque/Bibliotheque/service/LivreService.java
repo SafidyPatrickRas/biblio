@@ -89,4 +89,9 @@ public class LivreService {
         return livre.getExemplaires().size();
     }
 
+    // Méthodes de comptage
+    public long countAll() {
+        return livreRepository.count();
+    }
+
 }

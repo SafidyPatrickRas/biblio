@@ -1,7 +1,7 @@
 #!/bin/bash
 
-UTILISATEUR="safidy"
-MOT_DE_PASSE="safidy"
+UTILISATEUR="root"
+MOT_DE_PASSE=""
 BASE="spring_db_bibliotheque"
 
 # Récupérer toutes les tables

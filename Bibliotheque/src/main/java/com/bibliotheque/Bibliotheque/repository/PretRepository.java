@@ -11,9 +11,11 @@ import java.util.List;
 
 @Repository
 public interface PretRepository extends JpaRepository<Pret, Integer> {
-    List<Pret> findByAdherant_Id(Integer idAdherant);
-    List<Pret> findByDateFinBeforeAndDateFinAfter(Date dateDebut, Date dateFin);
-
+    List<Pret> findByAdherantId(Integer idAdherant);
+    
+    long count();
+    
+    
     // Compter tous les prêts non retournés
     long countByIsRetourneeFalse();
 
@@ -26,7 +28,7 @@ public interface PretRepository extends JpaRepository<Pret, Integer> {
     // Compter les prêts non retournés pour un livre
     long countByLivre_IdAndIsRetourneeFalse(Integer idLivre);
 
-     /**
+    /**
      * Trouve tous les prêts non retournés pour un livre spécifique
      * @param livre Le livre à rechercher
      * @return Liste des prêts non retournés pour ce livre
@@ -38,4 +40,7 @@ public interface PretRepository extends JpaRepository<Pret, Integer> {
 
     @Query("SELECT p FROM Pret p ORDER BY p.dateDebut DESC")
     List<Pret> findAllOrderByDateDesc();
+
+    // Recherche de prêts par plage de dates
+    List<Pret> findByDateFinBetween(Date dateDebut, Date dateFin);
 }

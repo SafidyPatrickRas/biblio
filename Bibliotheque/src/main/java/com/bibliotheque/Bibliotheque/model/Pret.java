@@ -28,10 +28,8 @@ public class Pret {
     private Date dateFin;
 
     @Column(nullable = false)
-    private boolean isRetournee;
-
-    private Date dateRetour;
-
+    private Boolean isRetournee;
+    private Date dateRendu;
 
     // Constructeurs
     public Pret() {
@@ -94,20 +92,19 @@ public class Pret {
         this.dateFin = dateFin;
     }
 
-    public boolean isRetournee() {
+    public Boolean getIsRetournee() {
         return isRetournee;
     }
 
-    public void setRetournee(boolean retournee) {
-        this.isRetournee = retournee;
+    public void setIsRetournee(Boolean retournee) {
+        isRetournee = retournee;
     }
 
-    public Date getDateRetour() {
-        return dateRetour;
+    public Date getDateRendu() {
+        return dateRendu;
     }
 
-    public void setDateRetour(Date dateRetour) {
-        this.dateRetour = dateRetour;
+    public void setDateRendu(Date dateRendu) {
+        this.dateRendu = dateRendu;
     }
-
 }

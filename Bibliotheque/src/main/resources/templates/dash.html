@@ -1,0 +1,140 @@
+    <div class="container-fluid mt-4">
+        <h1 class="h3 mb-4 text-gray-800">Tableau de Bord</h1>
+        
+        <!-- Première ligne de statistiques -->
+        <div class="row">
+            <!-- Livres -->
+            <div class="col-xl-4 col-md-6">
+                <div class="stat-card books-card card shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Livres</div>
+                                <div class="stat-value text-gray-800" th:text="${totalLivres}">0</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-book card-icon text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prêts actifs -->
+            <div class="col-xl-4 col-md-6">
+                <div class="stat-card loans-card card shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Prêts actifs</div>
+                                <div class="stat-value text-gray-800" th:text="${pretsActifs}">0</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-arrow-up-circle card-icon text-success"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Prêts en retard -->
+            <div class="col-xl-4 col-md-6">
+                <div class="stat-card late-loans-card card shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    Prêts en retard</div>
+                                <div class="stat-value text-gray-800" th:text="${pretsEnRetard}">0</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-exclamation-triangle card-icon text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Deuxième ligne de statistiques -->
+        <div class="row mt-4">
+            <!-- Adhérents -->
+            <div class="col-xl-4 col-md-6">
+                <div class="stat-card members-card card shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                    Adhérents</div>
+                                <div class="stat-value text-gray-800" th:text="${totalAdherants}">0</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-people card-icon text-info"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Adhérents avec prêts -->
+            <div class="col-xl-4 col-md-6">
+                <div class="stat-card members-card card shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                    Adhérents avec prêts</div>
+                                <div class="stat-value text-gray-800" th:text="${adherantsAvecPretActif}">0</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-person-check card-icon text-info"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Réservations -->
+            <div class="col-xl-4 col-md-6">
+                <div class="stat-card reservations-card card shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
+                                    Réservations</div>
+                                <div class="stat-value text-gray-800" th:text="${totalReservations}">0</div>
+                                <div class="mt-1 text-muted small" th:text="'En cours: ' + ${reservationsEnCours}"></div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-calendar-check card-icon text-secondary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Troisième ligne de statistiques -->
+        <div class="row mt-4">
+            <!-- Prolongements -->
+            <div class="col-xl-4 col-md-6">
+                <div class="stat-card extensions-card card shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                    Prolongements</div>
+                                <div class="stat-value text-gray-800" th:text="${totalProlongements}">0</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-clock-history card-icon text-danger"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+>

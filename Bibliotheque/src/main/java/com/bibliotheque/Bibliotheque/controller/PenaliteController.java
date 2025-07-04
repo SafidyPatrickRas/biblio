@@ -44,39 +44,39 @@ public class PenaliteController {
     }
 
     @PostMapping
-public String ajouterPenalite(@ModelAttribute Penalite penalite,
-                              @RequestParam("adherant") Integer adherantId) {
+    public String ajouterPenalite(@ModelAttribute Penalite penalite,
+            @RequestParam("adherant") Integer adherantId) {
 
-    Adherant adherant = adherantService.findById(adherantId)
-            .orElseThrow(() -> new IllegalArgumentException("Adhérant introuvable"));
+        Adherant adherant = adherantService.findById(adherantId)
+                .orElseThrow(() -> new IllegalArgumentException("Adhérant introuvable"));
 
-    penalite.setAdherant(adherant);
+        penalite.setAdherant(adherant);
 
-    Integer nombreJours = penalite.getNombreJours();
+        Integer nombreJours = penalite.getNombreJours();
 
-    if (nombreJours == null) {
-        // Gérer le cas d'erreur (optionnel)
-        return "redirect:/penalites/liste?erreur=nbJours";
+        if (nombreJours == null) {
+            // Gérer le cas d'erreur (optionnel)
+            return "redirect:/penalites/liste?erreur=nbJours";
+        }
+
+        // 🟡 Récupérer la dernière pénalité (par dateFin)
+        Penalite dernierePenalite = penaliteService.trouverDernierePenalite(adherant);
+
+        LocalDate nouvelleDateDebut;
+
+        if (dernierePenalite != null && dernierePenalite.getDateFin() != null) {
+            nouvelleDateDebut = dernierePenalite.getDateFin(); // enchaîne après l’ancienne
+        } else {
+            nouvelleDateDebut = LocalDate.now(); // sinon on commence aujourd’hui
+        }
+
+        LocalDate nouvelleDateFin = nouvelleDateDebut.plusDays(nombreJours);
+
+        penalite.setDateDebut(nouvelleDateDebut);
+        penalite.setDateFin(nouvelleDateFin);
+
+        penaliteService.save(penalite);
+
+        return "redirect:/penalites/liste";
     }
-
-    // 🟡 Récupérer la dernière pénalité (par dateFin)
-    Penalite dernierePenalite = penaliteService.trouverDernierePenalite(adherant);
-
-    LocalDate nouvelleDateDebut;
-
-    if (dernierePenalite != null && dernierePenalite.getDateFin() != null) {
-        nouvelleDateDebut = dernierePenalite.getDateFin(); // enchaîne après l’ancienne
-    } else {
-        nouvelleDateDebut = LocalDate.now(); // sinon on commence aujourd’hui
-    }
-
-    LocalDate nouvelleDateFin = nouvelleDateDebut.plusDays(nombreJours);
-
-    penalite.setDateDebut(nouvelleDateDebut);
-    penalite.setDateFin(nouvelleDateFin);
-
-    penaliteService.save(penalite);
-
-    return "redirect:/penalites/liste";
-}
 }

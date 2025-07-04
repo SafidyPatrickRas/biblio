@@ -43,4 +43,10 @@ public interface LivreRepository extends JpaRepository<Livre, Integer> {
     // Trouver tous les livres avec leurs exemplaires
     @Query("SELECT l FROM Livre l JOIN FETCH l.exemplaires")
     List<Livre> findAllWithExemplaires();
+
+    // Rechercher des livres
+
+    // Compter le nombre de livres
+    long count();
+
 }

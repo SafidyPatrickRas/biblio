@@ -20,7 +20,7 @@
                 <span>)</span>
             </td>
             <td th:text="${reservation.adherant.email}"></td>
-            <td th:text="${#temporals.format(reservation.dateReservation, 'dd/MM/yyyy')}"></td>
+            <td th:text="${reservation.dateReservation}"></td>
             <td>
     <form th:action="@{/reservations/action}" method="post" class="d-inline">
         <input type="hidden" name="reservationId" th:value="${reservation.id}" />

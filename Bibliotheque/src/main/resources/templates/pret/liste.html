@@ -31,7 +31,7 @@
                     <td th:text="${#dates.format(pret.dateDebut, 'dd/MM/yyyy')}"></td>
                     <td th:text="${#dates.format(pret.dateFin, 'dd/MM/yyyy')}"></td>
                     <td>
-                        <a th:href="@{/pret/rendre/{id}(id=${pret.id})}" class="btn btn-success" th:if="${!pret.isRetournee}">Rendre</a>
+                        <button type="button" class="btn btn-success" th:if="${!pret.isRetournee}" data-bs-toggle="modal" data-bs-target="#modalRendrePret" th:attr="data-id=${pret.id}, data-adherant='${pret.adherant.nom} ${pret.adherant.prenom}', data-livre='${pret.livre.titre}'">Rendre</button>
                         <span th:if="${pret.isRetournee}">Déjà rendu</span>
                     </td>
                 </tr>
@@ -40,8 +40,42 @@
     </div>
 </div>
 
+<!-- Modal pour rendre le prêt -->
+<div class="modal fade" id="modalRendrePret" tabindex="-1" aria-labelledby="modalRendrePretLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalRendrePretLabel">Rendre le prêt</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formRendrePret" action="/pret/rendre" method="POST">
+                    <input type="hidden" id="pretId" name="id">
+                    <div class="mb-3">
+                        <label for="adherant" class="form-label">Adhérent</label>
+                        <input type="text" class="form-control" id="adherant" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="livre" class="form-label">Livre</label>
+                        <input type="text" class="form-control" id="livre" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dateRetour" class="form-label">Date de retour</label>
+                        <input type="date" class="form-control" id="dateRetour" name="dateRetour" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="submit" form="formRendrePret" class="btn btn-primary">Confirmer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- 🔧 Script JS -->
 <script>
+    // Recherche dans le tableau
     document.getElementById('searchInput').addEventListener('input', function() {
         const filtre = this.value.toLowerCase();
         const lignes = document.querySelectorAll('#tableBody tr');
@@ -50,5 +84,17 @@
             const texte = row.innerText.toLowerCase();
             row.style.display = texte.includes(filtre) ? '' : 'none';
         });
+    });
+
+    // Initialisation du modal
+    document.getElementById('modalRendrePret').addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const id = button.getAttribute('data-id');
+        const adherant = button.getAttribute('data-adherant');
+        const livre = button.getAttribute('data-livre');
+
+        document.getElementById('pretId').value = id;
+        document.getElementById('adherant').value = adherant;
+        document.getElementById('livre').value = livre;
     });
 </script>

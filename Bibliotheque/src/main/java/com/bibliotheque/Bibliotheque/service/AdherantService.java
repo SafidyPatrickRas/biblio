@@ -28,20 +28,28 @@ public class AdherantService {
         return adherantRepository.findById(id);
     }
 
+    public Adherant getAdherantById(Integer id) {
+        return adherantRepository.findById(id).orElse(null);
+    }
+
+    public Adherant createAdherant(Adherant adherant) {
+        return adherantRepository.save(adherant);
+    }
+
+    public Adherant updateAdherant(Adherant adherant) {
+        return adherantRepository.save(adherant);
+    }
+
+    public void deleteAdherant(Integer id) {
+        adherantRepository.deleteById(id);
+    }
+
     public boolean estAbonneEnCeMoment(int idAdherant) {
         Date dateCourante = new Date();
         List<Abonnement> abonnements = abonnementRepository.findByAdherantId(idAdherant);
-        
-        for (Abonnement abonnement : abonnements) {
-            Date dateDebut = abonnement.getDateInscription();
-            Date dateFin = abonnement.getDateFinInscription();
-            
-            // Vérifier si la date courante est entre la date de début et la date de fin
-            if (dateCourante.after(dateDebut) && dateCourante.before(dateFin)) {
-                return true; // L'adhérent est abonné
-            }
-        }
-        return false; // L'adhérent n'est pas abonné en ce moment
+        return abonnements.stream()
+                .anyMatch(abonnement -> abonnement.getDateInscription().before(dateCourante) && 
+                           (abonnement.getDateFinInscription() == null || abonnement.getDateFinInscription().after(dateCourante)));
     }
 
     public Optional<Adherant> findByEmail(String email) {
@@ -63,4 +71,10 @@ public class AdherantService {
         }
         return null;
     }
+
+    // Méthodes de comptage
+    public long countAll() {
+        return adherantRepository.count();
+    }
+
 }

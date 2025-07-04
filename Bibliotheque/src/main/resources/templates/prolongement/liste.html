@@ -1,0 +1,29 @@
+
+<div class="container mt-4">
+    <h2>Liste des Prolongements</h2>
+    
+    <div class="table-responsive mt-4">
+        <table class="table table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>ID du Prêt</th>
+                    <th>Nombre de Jours</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="prolongement : ${prolongements}">
+                    <td th:text="${prolongement.id}"></td>
+                    <td th:text="${prolongement.idPret}"></td>
+                    <td th:text="${prolongement.nombreJoursProlonger}"></td>
+                    <td th:text="${prolongement.status.nom}"></td>
+                    <td>
+                        <a th:href="@{/prolongements/{idPret}(idPret=${prolongement.idPret})}" class="btn btn-info btn-sm">Détails</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

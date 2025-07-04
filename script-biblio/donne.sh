@@ -1,10 +1,11 @@
 #!/bin/bash
 
-UTILISATEUR="safidy"
-MOT_DE_PASSE="safidy"
+MYSQL="/opt/lampp/bin/mysql"
+UTILISATEUR="root"
+MOT_DE_PASSE=""
 BASE="spring_db_bibliotheque"
 
-mysql -u "$UTILISATEUR" -p"$MOT_DE_PASSE" "$BASE" <<EOF
+$MYSQL -u "$UTILISATEUR" -p"$MOT_DE_PASSE" "$BASE" <<EOF
 
 -- Insertion des auteurs
 INSERT INTO auteur (nom, prenom, date_naissance, nationalite, date_deces, biographie, photo) VALUES
@@ -82,9 +83,22 @@ INSERT INTO exemplaire_livre (livre_id, nombre_exemplaires) VALUES
 (5, 1),
 (6, 1);
 
+-- Insertion des statuts
 INSERT INTO status (nom) VALUES
 ('Envoyé'),
 ('Refusé'),
 ('Accepté');
 
+INSERT INTO regle_reservation (max_reservations, profil_id) VALUES
+(5, 1),  -- Étudiant
+(10, 2), -- Professeur
+(8, 3),  -- Chercheur
+(4, 4),  -- Personnel administratif
+(3, 5),  -- Lecteur externe
+(6, 6),  -- Auteur
+(7, 7),  -- Bibliothécaire
+(9, 8);  -- Enseignant-chercheur
+
+
 EOF
+

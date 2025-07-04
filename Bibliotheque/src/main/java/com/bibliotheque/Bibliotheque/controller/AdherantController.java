@@ -12,6 +12,8 @@ import com.bibliotheque.Bibliotheque.service.PretService;
 import com.bibliotheque.Bibliotheque.service.AbonnementService;
 import com.bibliotheque.Bibliotheque.service.ProfilService;
 import com.bibliotheque.Bibliotheque.service.ReservationService;
+import com.bibliotheque.Bibliotheque.service.ProlongementService;
+import com.bibliotheque.Bibliotheque.model.Prolongement;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -50,6 +52,9 @@ public class AdherantController {
 
     @Autowired
     private ReservationService reservationService;
+    
+    @Autowired
+    private ProlongementService prolongementService;
 
     // Afficher le formulaire d'insertion d'un nouvel adhérant
     @GetMapping("/login")
@@ -168,15 +173,16 @@ public class AdherantController {
         model.addAttribute("reservations", reservations);
 
         //  liste des livres en pret actuel
-
         List<Pret> prets = pretService.getLivresNonRetournesParAdherent(adherant.getId());
-
         model.addAttribute("prets", prets);
         model.addAttribute("adherant", adherant);
 
+        // Récupérer les prolongements de l'adhérent
+        List<Prolongement> prolongements = prolongementService.findByAdherant(adherant);
+        model.addAttribute("prolongements", prolongements);
+
         // En penalite ou pas 
         boolean enPenalite = penaliteService.estEnPenalite(adherant);
-
 
         if(enPenalite){
             // Récupérer la dernière pénalité active
