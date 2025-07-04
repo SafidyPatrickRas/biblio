@@ -5,11 +5,13 @@ import com.bibliotheque.Bibliotheque.model.Penalite;
 import com.bibliotheque.Bibliotheque.model.Pret;
 import com.bibliotheque.Bibliotheque.model.Abonnement;
 import com.bibliotheque.Bibliotheque.model.Profil;
+import com.bibliotheque.Bibliotheque.model.Reservation;
 import com.bibliotheque.Bibliotheque.service.AdherantService;
 import com.bibliotheque.Bibliotheque.service.PenaliteService;
 import com.bibliotheque.Bibliotheque.service.PretService;
 import com.bibliotheque.Bibliotheque.service.AbonnementService;
 import com.bibliotheque.Bibliotheque.service.ProfilService;
+import com.bibliotheque.Bibliotheque.service.ReservationService;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -45,6 +47,9 @@ public class AdherantController {
 
     @Autowired
     private PenaliteService penaliteService;
+
+    @Autowired
+    private ReservationService reservationService;
 
     // Afficher le formulaire d'insertion d'un nouvel adhérant
     @GetMapping("/login")
@@ -158,6 +163,9 @@ public class AdherantController {
         if(adherant == null) {
             return "redirect:/adherants/login";
         }
+
+        List<Reservation> reservations = reservationService.findByAdherantId(adherant.getId());
+        model.addAttribute("reservations", reservations);
 
         //  liste des livres en pret actuel
 

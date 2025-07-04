@@ -1,0 +1,39 @@
+<div class="container mt-4">
+<h2>Liste des réservations</h2>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Livre (Auteur)</th>
+            <th>Email adhérant</th>
+            <th>Date de réservation</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="reservation : ${reservations}">
+            <td>
+                <span th:text="${reservation.livre.titre}"></span>
+                <span> (</span>
+                <span th:text="${reservation.livre.auteur.nom}"></span>
+                <span> - </span>
+                <span th:text="${reservation.livre.auteur.prenom}"></span>
+                <span>)</span>
+            </td>
+            <td th:text="${reservation.adherant.email}"></td>
+            <td th:text="${#temporals.format(reservation.dateReservation, 'dd/MM/yyyy')}"></td>
+            <td>
+    <form th:action="@{/reservations/action}" method="post" class="d-inline">
+        <input type="hidden" name="reservationId" th:value="${reservation.id}" />
+        <input type="hidden" name="action" value="accepter" />
+        <button type="submit" class="btn btn-success btn-sm">Accepter</button>
+    </form>
+    <form th:action="@{/reservations/action}" method="post" class="d-inline ms-1">
+        <input type="hidden" name="reservationId" th:value="${reservation.id}" />
+        <input type="hidden" name="action" value="refuser" />
+        <button type="submit" class="btn btn-danger btn-sm">Refuser</button>
+    </form>
+</td>
+        </tr>
+    </tbody>
+</table>
+</div>
