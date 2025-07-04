@@ -1,0 +1,23 @@
+ <h2>Liste des réservations</h2>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Livre</th>
+                <th>Adherant</th>
+                <th>Date réservation</th>
+                <th>Date retour</th>
+                <th>Date de reservation</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="reservation : ${reservations}">
+                <td th:text="${reservation.pret.livre.titre}"></td>
+                <td th:text="${reservation.pret.adherant.email}"></td>
+                <td th:text="${reservation.pret.date_fin}"></td>
+                <td th:text="${reservation.pret != null ? reservation.pret.id : ''}"></td>
+                <td th:text="${reservation.dateReservation}"></td>
+                <td><button>Accepter</button></td>
+            </tr>
+        </tbody>
+    </table>
