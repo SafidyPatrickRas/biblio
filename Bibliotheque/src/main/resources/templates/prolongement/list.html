@@ -1,0 +1,37 @@
+<div class="container mt-5">
+    <h2>Liste des Prolongements</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Adhérent</th>
+                <th>Livre</th>
+                <th>Date de pret</th>
+                <th>Date de fin du pret</th>
+                <th>Date de demande</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="prolongement : ${prolongements}">
+                <td th:text="${prolongement.pret.adherant.email}"></td>
+                <td th:text="${prolongement.pret.livre.titre}"></td>
+                <td th:text="${prolongement.pret.dateDebut}"></td>
+                <td th:text="${prolongement.pret.dateFin}"></td>
+                <td th:text="${prolongement.dureeProlongation}"></td>
+                <td>
+                    <div th:if="${prolongement.status.nom == 'Envoyé'}">
+                    <form th:action="@{/prolongement/accept}" method="post" style="display: inline;">
+                        <input type="hidden" name="prolongementId" th:value="${prolongement.id}">
+                        <button type="submit" class="btn btn-success btn-sm">Accepter</button>
+                    </form>
+                    <form th:action="@{/prolongement/refuse}" method="post" style="display: inline; margin-left: 5px;">
+                        <input type="hidden" name="prolongementId" th:value="${prolongement.id}">
+                        <button type="submit" class="btn btn-danger btn-sm">Refuser</button>
+                    </form>
+                    </div>
+                    <span th:unless="${prolongement.status.nom == 'Envoyé'}" th:text="${prolongement.status.nom}"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

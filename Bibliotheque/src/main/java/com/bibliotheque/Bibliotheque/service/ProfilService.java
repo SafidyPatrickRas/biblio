@@ -7,25 +7,37 @@ import org.springframework.stereotype.Service;
 
 import com.bibliotheque.Bibliotheque.model.Profil;
 import com.bibliotheque.Bibliotheque.repository.ProfilRepository;
+
 @Service
 public class ProfilService {
-    
     @Autowired
     private ProfilRepository profilRepository;
+    // CRUD 
 
-    public List<Profil> getAll() {
-        return profilRepository.findAll();
-    }
-
-    public void save(Profil profil) {
+    // Create 
+    public void createProfil(Profil profil) {
         profilRepository.save(profil);
     }
 
-    public Profil getById(Integer id) {
+    // Read
+    public Profil getProfilById(Integer id) {
         return profilRepository.findById(id).orElse(null);
     }
 
-    public void delete(Integer id) {
-        profilRepository.deleteById(id);
+    // Update
+    public void updateProfil(Profil profil) {
+        profilRepository.save(profil); 
     }
+
+    // Delete
+    public void deleteProfil(Integer id) {
+        profilRepository.deleteById(id);  
+    }
+
+    // select all 
+    public List<Profil> getAllProfils() {
+        return profilRepository.findAll();
+    }
+
+    // Additional methods can be added as needed
 }

@@ -1,16 +1,17 @@
 package com.bibliotheque.Bibliotheque.repository;
 
-import com.bibliotheque.Bibliotheque.model.Livre;
-import com.bibliotheque.Bibliotheque.model.Pret;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
 import java.util.List;
 
-@Repository
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.bibliotheque.Bibliotheque.model.Livre;
+import com.bibliotheque.Bibliotheque.model.Pret;
+
 public interface PretRepository extends JpaRepository<Pret, Integer> {
+<<<<<<< Updated upstream
     List<Pret> findByAdherantId(Integer idAdherant);
     
     long count();
@@ -18,16 +19,23 @@ public interface PretRepository extends JpaRepository<Pret, Integer> {
     
     // Compter tous les prêts non retournés
     long countByIsRetourneeFalse();
+=======
 
-    // Compter les prêts non retournés pour un adhérent
-    Integer countByAdherant_IdAndIsRetourneeFalse(Integer idAdherant);
+    @Query("SELECT p FROM Pret p WHERE p.dateRetour IS NULL AND p.livre.id = :livreId")
+    List<Pret> findPretsNonRendusParLivre(@Param("livreId") Integer livreId);
+>>>>>>> Stashed changes
 
-    // Récupérer les prêts non retournés par adhérent
-    List<Pret> findByAdherant_IdAndIsRetourneeFalse(Integer idAdherant);
+    @Query("SELECT DISTINCT p.livre FROM Pret p WHERE p.adherant.id = :adherantId")
+    List<Livre> findLivresPretesParAdherant(@Param("adherantId") Integer adherantId);
 
-    // Compter les prêts non retournés pour un livre
-    long countByLivre_IdAndIsRetourneeFalse(Integer idLivre);
+    // Pret non retourne  
+    List<Pret> findByDateRetourIsNull();
 
+    // Pret non rretourne par adherant
+    @Query("SELECT p FROM Pret p WHERE p.dateRetour IS NULL AND p.adherant.id = :adherantId")
+    List<Pret> findPretsNonRendusParAdherant(@Param("adherantId") Integer adherantId);
+
+<<<<<<< Updated upstream
     /**
      * Trouve tous les prêts non retournés pour un livre spécifique
      * @param livre Le livre à rechercher
@@ -44,3 +52,8 @@ public interface PretRepository extends JpaRepository<Pret, Integer> {
     // Recherche de prêts par plage de dates
     List<Pret> findByDateFinBetween(Date dateDebut, Date dateFin);
 }
+=======
+
+
+}
+>>>>>>> Stashed changes

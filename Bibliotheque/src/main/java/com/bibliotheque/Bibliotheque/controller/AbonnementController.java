@@ -1,10 +1,10 @@
 package com.bibliotheque.Bibliotheque.controller;
 
-import com.bibliotheque.Bibliotheque.model.Abonnement;
-import com.bibliotheque.Bibliotheque.service.AbonnementService;
-import com.bibliotheque.Bibliotheque.service.AdherantService;
+import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,73 +13,92 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Date;
-import java.util.Optional;
+import com.bibliotheque.Bibliotheque.model.Abonnement;
 import com.bibliotheque.Bibliotheque.model.Adherant;
+import com.bibliotheque.Bibliotheque.service.AbonnementService;
+import com.bibliotheque.Bibliotheque.service.AdherantService;
 
 @Controller
 @RequestMapping("/abonnement")
 public class AbonnementController {
-
     @Autowired
     private AbonnementService abonnementService;
 
     @Autowired
     private AdherantService adherantService;
 
-    @GetMapping("/ajouter")
-    public String afficherFormulaire(Model model) {
-        model.addAttribute("abonnement", new Abonnement());
-        model.addAttribute("adherants", adherantService.findAll());
-        model.addAttribute("page", "abonnement/ajouter");
-        return "template";
+    @PostMapping("/create")
+    public String createAbonnement(
+        @RequestParam("adherant") String email,
+        @RequestParam("dateInscription") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateInscription,
+        @RequestParam("dateFinInscription") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateFinInscription,
+        RedirectAttributes redirectAttrs
+    ) {
+        // Validation des données d'abonnement
+        Adherant adherant = adherantService.findByEmail(email);
+        if (adherant == null) {
+            redirectAttrs.addFlashAttribute("message", "Adhérent non trouvé.");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
+            return "redirect:/abonnement/create";
+        }
+
+        if( dateInscription == null || dateFinInscription == null) {
+            redirectAttrs.addFlashAttribute("message", "Dates d'inscription invalides.");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
+            return "redirect:/abonnement/create";
+        }
+
+        if(dateFinInscription == null || dateInscription == null) {
+            redirectAttrs.addFlashAttribute("message", "Les dates d'inscription et de fin d'inscription sont obligatoires.");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
+            return "redirect:/abonnement/create";
+        }
+
+        if( dateFinInscription.before(dateInscription)) {
+            redirectAttrs.addFlashAttribute("message", "La date de fin d'inscription doit être postérieure à la date d'inscription.");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
+            return "redirect:/abonnement/create";
+        }
+
+        // Vérification des chevauchements d'abonnement
+        List<Abonnement> chevauchants = abonnementService.findAbonnementsChevauchantsByAdherant(
+            adherant.getId(),
+            dateInscription,
+            dateFinInscription
+        );
+        if (!chevauchants.isEmpty()) {
+            redirectAttrs.addFlashAttribute("message", "Un abonnement chevauche déjà cette période pour cet adhérent.");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
+            return "redirect:/abonnement/create";
+        }
+
+        
+        Abonnement abonnement = new Abonnement();
+        abonnement.setAdherant(adherant);
+        abonnement.setDateInscription(dateInscription);
+        abonnement.setDateFinInscription(dateFinInscription);
+
+        abonnementService.createAbonnement(abonnement);
+
+        redirectAttrs.addFlashAttribute("message", "Abonnement créé avec succès.");
+        redirectAttrs.addFlashAttribute("alertClass", "alert-success");
+        return "redirect:/abonnement/create";
     }
 
-    @PostMapping("/ajouter")
-    public String traiterFormulaire(
-            @RequestParam("emailAdherant") String emailAdherant,
-            @RequestParam("dateInscription") String dateInscription,
-            @RequestParam("dateFinInscription") String dateFinInscription,
-            RedirectAttributes redirectAttrs,
-            Model model) {
-
-        try {
-            // Convertir les dates
-            java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd");
-            Date dateInsc = formatter.parse(dateInscription);
-            Date dateFin = formatter.parse(dateFinInscription);
-
-            // Créer l'abonnement
-            Optional<Adherant> adherantOpt = adherantService.findByEmail(emailAdherant);
-            if (adherantOpt.isPresent()) {
-                Abonnement abonnement = abonnementService.creerAbonnement(
-                        adherantOpt.get().getId(),
-                        dateInsc,
-                        dateFin
-                );
-                if (abonnement != null) {
-                    redirectAttrs.addFlashAttribute("message", "L'abonnement a été créé avec succès !");
-                    redirectAttrs.addFlashAttribute("alertClass", "alert-success");
-                } else {
-                    // Vérifier si c'est un chevauchement de dates
-                    if (abonnementService.verifieChevauchementDates(adherantOpt.get().getId(), dateInsc, dateFin)) {
-                        redirectAttrs.addFlashAttribute("message", "L'adhérent est déjà abonné pour ces dates. Veuillez choisir d'autres dates.");
-                        redirectAttrs.addFlashAttribute("alertClass", "alert-warning");
-                    } else {
-                        redirectAttrs.addFlashAttribute("message", "Erreur lors de la création de l'abonnement.");
-                        redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
-                    }
-                }
-            } else {
-                redirectAttrs.addFlashAttribute("message", "Aucun adhérent trouvé avec cet email.");
-                redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
-            }
-
-        } catch (Exception e) {
-            redirectAttrs.addFlashAttribute("message", "Erreur lors de la création de l'abonnement : " + e.getMessage());
-            model.addAttribute("alertClass", "alert-danger");
-        }
-        
-        return "redirect:/abonnement/ajouter";
+    // Création
+    @GetMapping("/create")
+    public String createAbonnementForm(Model model) {
+        model.addAttribute("abonnement", new Abonnement());
+        model.addAttribute("adherants", adherantService.getAllAdherants());
+        model.addAttribute("page", "abonnement/create");
+        return "template";
+    }
+    // Liste
+    @GetMapping("/list") 
+    public String listAbonnements(Model model) {
+        List<Abonnement> abonnements = abonnementService.getAllAbonnements();
+        model.addAttribute("abonnements", abonnements);
+        model.addAttribute("page", "abonnement/list");
+        return "template";
     }
 }

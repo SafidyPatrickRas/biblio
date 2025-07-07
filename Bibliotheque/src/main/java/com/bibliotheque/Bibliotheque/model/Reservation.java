@@ -3,8 +3,7 @@ package com.bibliotheque.Bibliotheque.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
-import java.sql.Date;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "reservation")
@@ -20,6 +19,7 @@ public class Reservation {
 
     @NotNull(message = "La date de réservation est obligatoire")
     @Column(name = "date_reservation", nullable = false)
+    
     private Date dateReservation;
 
     @ManyToOne
@@ -27,8 +27,8 @@ public class Reservation {
     private Status status;
 
     @ManyToOne
-@JoinColumn(name = "adherant_id", nullable = false)
-private Adherant adherant;
+    @JoinColumn(name = "adherant_id", nullable = false)
+    private Adherant adherant;
 
     // Getters et Setters
 
@@ -45,7 +45,7 @@ private Adherant adherant;
     }
 
     public void setPret(Livre livre) {
-        this.livre =livre;
+        this.livre = livre;
     }
 
     public Date getDateReservation() {
@@ -65,17 +65,18 @@ private Adherant adherant;
     }
 
     public Adherant getAdherant() {
-    return adherant;
-}
+        return adherant;
+    }
 
-public void setAdherant(Adherant adherant) {
-    this.adherant = adherant;
-}
+    public void setAdherant(Adherant adherant) {
+        this.adherant = adherant;
+    }
 
-public Livre getLivre() {
-    return livre;
-}
-public void setLivre(Livre livre) {
-    this.livre = livre;
-}
+    public Livre getLivre() {
+        return livre;
+    }
+
+    public void setLivre(Livre livre) {
+        this.livre = livre;
+    }
 }

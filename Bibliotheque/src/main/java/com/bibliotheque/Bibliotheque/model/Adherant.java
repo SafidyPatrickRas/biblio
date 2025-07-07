@@ -1,8 +1,9 @@
 package com.bibliotheque.Bibliotheque.model;
 
+import java.sql.Date;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-import java.time.LocalDate;
 
 @Entity
 public class Adherant {
@@ -29,7 +30,7 @@ public class Adherant {
     private String email;
 
     @NotNull(message = "La date de naissance est obligatoire")
-    private LocalDate dateNaissance;
+    private Date dateNaissance;
 
     @ManyToOne
     @JoinColumn(name = "id_profil", nullable = true)
@@ -77,11 +78,11 @@ public class Adherant {
         this.email = email;
     }
 
-    public LocalDate getDateNaissance() {
+    public Date getDateNaissance() {
         return dateNaissance;
     }
 
-    public void setDateNaissance(LocalDate dateNaissance) {
+    public void setDateNaissance(Date dateNaissance) {
         this.dateNaissance = dateNaissance;
     }
 

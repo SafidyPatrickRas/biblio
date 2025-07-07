@@ -1,60 +1,62 @@
 package com.bibliotheque.Bibliotheque.service;
 
-import com.bibliotheque.Bibliotheque.model.Abonnement;
-import com.bibliotheque.Bibliotheque.model.Adherant;
-import com.bibliotheque.Bibliotheque.repository.AbonnementRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bibliotheque.Bibliotheque.model.Abonnement;
+import com.bibliotheque.Bibliotheque.repository.AbonnementRepository;
 
 @Service
 public class AbonnementService {
-    
+
     @Autowired
     private AbonnementRepository abonnementRepository;
 
-    @Autowired
-    private AdherantService adherantService;
-
-    public boolean verifieChevauchementDates(int idAdherant, Date dateInscription, Date dateFinInscription) {
-        List<Abonnement> abonnementsExistants = abonnementRepository.findByAdherantId(idAdherant);
-        
-        for (Abonnement abonnement : abonnementsExistants) {
-            Date dateFinExistant = abonnement.getDateFinInscription();
-            Date dateDebutExistant = abonnement.getDateInscription();
-            
-            // Vérifier si les dates se chevauchent
-            if (dateInscription.before(dateFinExistant) && dateFinInscription.after(dateDebutExistant)) {
-                return true; // Il y a un chevauchement
-            }
-        }
-        return false; // Pas de chevauchement
+    // findPretsNonRendusParLivre
+    public List<Abonnement> findPretsNonRendusParLivre(Integer livreId) {
+        return abonnementRepository.findPretsNonRendusParLivre(livreId);
     }
 
-    public Abonnement creerAbonnement(int idAdherant, Date dateInscription, Date dateFinInscription) {
-        Optional<Adherant> adherantOptional = adherantService.findById(idAdherant);
-        if (adherantOptional.isPresent()) {
-            if (verifieChevauchementDates(idAdherant, dateInscription, dateFinInscription)) {
-                return null; // Il y a un chevauchement, on ne crée pas l'abonnement
-            }
-            
-            Adherant adherant = adherantOptional.get();
-            Abonnement abonnement = new Abonnement();
-            abonnement.setDateInscription(dateInscription);
-            abonnement.setDateFinInscription(dateFinInscription);
-            abonnement.setAdherant(adherant);
-            return abonnementRepository.save(abonnement);
-        }
-        return null;
+
+    public boolean estAbonneeAdherant(Date date ,  Integer adherantId) {
+    List<Abonnement> abonnements = abonnementRepository.estAbonneeAdherant(date, adherantId);
+
+    // Correct : test si la liste est vide ou non
+    return abonnements != null && !abonnements.isEmpty();
+}
+
+
+    // findAbonnementsChevauchantsByAdherant
+    public List<Abonnement> findAbonnementsChevauchantsByAdherant(Integer adherantId,Date debut,Date fin) {
+        return abonnementRepository.findAbonnementsChevauchantsByAdherant(debut,fin, adherantId);
     }
 
-    public Abonnement findById(int id) {
+
+    // create
+    public void createAbonnement(Abonnement abonnement) {
+        abonnementRepository.save(abonnement);
+    }
+    
+    // read
+    public Abonnement getAbonnementById(Integer id) {
         return abonnementRepository.findById(id).orElse(null);
     }
 
-    public List<Abonnement> findAllByAdherantId(int idAdherant) {
-        return abonnementRepository.findByAdherantId(idAdherant);
+    // update
+    public void updateAbonnement(Abonnement abonnement) {
+        abonnementRepository.save(abonnement);
+    }
+
+    // delete
+    public void deleteAbonnement(Integer id) {
+        abonnementRepository.deleteById(id);
+    }
+
+    // get all abonnements
+    public List<Abonnement> getAllAbonnements() {
+        return abonnementRepository.findAll();
     }
 }

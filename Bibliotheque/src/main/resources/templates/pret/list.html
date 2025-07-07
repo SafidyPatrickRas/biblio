@@ -1,0 +1,85 @@
+<div class="container mt-4">
+    <!-- En-tête -->
+    <div class="page-header mb-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2><i class="fas fa-list-ul icon-lg me-2"></i>Liste des prêts</h2>
+            <a th:href="@{/prets/create}" class="btn btn-primary">
+                <i class="fas fa-plus-circle me-1"></i>Ajouter un prêt
+            </a>
+        </div>
+        <hr class="border-primary">
+    </div>
+
+    <!-- Tableau -->
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="ps-4">Adhérent</th>
+                            <th>Date début</th>
+                            <th>Date fin</th>
+                            <th>Livre</th>
+                            <th>Statut</th>
+                            <th class="text-end pe-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="pret : ${prets}">
+                            <td class="ps-4" th:text="${pret.adherant.email}"></td>
+                            <td th:text="${pret.dateDebut}"></td>
+                            <td th:text="${pret.dateFin}"></td>
+                            <td th:text="${pret.livre.titre}"></td>
+                            <td>
+                                <span th:if="${pret.dateRetour == null}" class="badge bg-warning">En cours</span>
+                                <span th:if="${pret.dateRetour != null}" class="badge bg-success">Retourné</span>
+                            </td>
+                            <td class="text-end pe-4">
+                                <div th:if="${pret.dateRetour == null}" class="btn-group">
+                                    <button class="btn btn-sm btn-success" 
+                                            type="button" 
+                                            data-bs-toggle="modal" 
+                                            th:attr="data-bs-target='#retourModal-'+${pret.id}">
+                                        <i class="fas fa-book me-1"></i> Retour
+                                    </button>
+                                </div>
+                                
+                                <!-- Modal de retour -->
+                                <div class="modal fade" th:id="'retourModal-'+${pret.id}" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <form th:action="@{/prets/retour}" method="post">
+                                                <div class="modal-header bg-primary text-white">
+                                                    <h5 class="modal-title">Enregistrer un retour</h5>
+                                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <input type="hidden" name="pretId" th:value="${pret.id}" />
+                                                    <div class="form-group mb-3">
+                                                        <label for="dateRetour" class="form-label">Date de retour :</label>
+                                                        <input type="date" name="dateRetour" 
+                                                               class="form-control" required
+                                                               th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}"/>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                                        <i class="fas fa-times me-1"></i> Annuler
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary">
+                                                        <i class="fas fa-check me-1"></i> Confirmer
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

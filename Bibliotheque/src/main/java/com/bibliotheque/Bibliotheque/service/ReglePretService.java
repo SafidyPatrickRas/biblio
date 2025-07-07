@@ -1,36 +1,38 @@
 package com.bibliotheque.Bibliotheque.service;
 
-import com.bibliotheque.Bibliotheque.model.ReglePret;
-import com.bibliotheque.Bibliotheque.repository.ReglePretRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Optional;
+
+import com.bibliotheque.Bibliotheque.model.Profil;
+import com.bibliotheque.Bibliotheque.model.ReglePret;
+import com.bibliotheque.Bibliotheque.model.TypePret;
+import com.bibliotheque.Bibliotheque.repository.ReglePretRepository;
 
 @Service
 public class ReglePretService {
-    
     @Autowired
     private ReglePretRepository reglePretRepository;
-
-    public ReglePret getReglePretByProfilAndTypePret(Integer idProfil, Integer idTypePret) {
-        return reglePretRepository.findFirstByProfilIdAndTypePretId(idProfil, idTypePret).orElse(null);
+    
+    public ReglePret findByTypePretAndAdherantId(TypePret typePret, Profil profil) {
+        return reglePretRepository.findByTypePretAndProfil(typePret , profil).orElse(null);
     }
 
-    public List<ReglePret> getReglesByProfil(Integer idProfil) {
-        return reglePretRepository.findByProfilId(idProfil);
+    // create 
+    public void createReglePret(ReglePret reglePret) {
+        reglePretRepository.save(reglePret);
     }
 
-    public List<ReglePret> getReglesByTypePret(Integer idTypePret) {
-        return reglePretRepository.findByTypePretId(idTypePret);
+    // read
+    public ReglePret getReglePretById(Integer id) {
+        return reglePretRepository.findById(id).orElse(null);
     }
 
-    public ReglePret save(ReglePret reglePret) {
-        return reglePretRepository.save(reglePret);
+    // update
+    public void updateReglePret(ReglePret reglePret) {
+        reglePretRepository.save(reglePret);
     }
-
-    public void delete(Integer id) {
+    // delete
+    public void deleteReglePret(Integer id) {
         reglePretRepository.deleteById(id);
     }
 }

@@ -1,38 +1,232 @@
-<div class="container mt-5">
-    <div class="row">
-        <div class="col-md-12">
-            <h1 class="display-4 text-center mb-4">Bienvenue à la Bibliothèque</h1>
-            <div class="text-center">
-                <p class="lead">Découvrez notre collection de livres et rejoignez notre communauté de lecteurs.</p>
+<div class="home-page">
+    <!-- Hero Section -->
+    <div class="hero-section py-5 mb-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">Bienvenue à la Bibliothèque <span class="text-primary">Littera</span></h1>
+                    <p class="lead mb-4">Découvrez notre vaste collection de livres, e-books et ressources numériques pour tous les âges et tous les intérêts.</p>
+                    <div class="d-flex gap-3">
+                        <a th:href="@{/livres}" class="btn btn-primary btn-lg px-4">
+                            <i class="fas fa-book-open me-2"></i>Explorer le catalogue
+                        </a>
+                        <a th:href="@{/adherants/inscription}" class="btn btn-outline-primary btn-lg px-4">
+                            <i class="fas fa-user-plus me-2"></i>Devenir membre
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6 d-none d-lg-block">
+                    <img src="/images/library-hero.jpg" alt="Bibliothèque" class="img-fluid rounded shadow">
+                </div>
             </div>
         </div>
     </div>
 
-    <div class="row mt-5">
-        <div class="col-md-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Catalogue</h5>
-                    <p class="card-text">Explorez notre vaste collection de livres dans différentes catégories.</p>
-                    <a href="/livres" class="btn btn-primary">Voir les livres</a>
+    <!-- Features Section -->
+    <div class="container mb-5">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card p-4 h-100 text-center">
+                    <div class="icon-wrapper mb-3">
+                        <i class="fas fa-book fa-3x text-primary"></i>
+                    </div>
+                    <h3 class="h4 mb-3">+50,000 Livres</h3>
+                    <p>Une collection riche et variée constamment mise à jour avec les dernières parutions.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card p-4 h-100 text-center">
+                    <div class="icon-wrapper mb-3">
+                        <i class="fas fa-laptop fa-3x text-primary"></i>
+                    </div>
+                    <h3 class="h4 mb-3">Ressources numériques</h3>
+                    <p>Accédez à notre bibliothèque en ligne avec des milliers d'e-books et revues académiques.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card p-4 h-100 text-center">
+                    <div class="icon-wrapper mb-3">
+                        <i class="fas fa-calendar-alt fa-3x text-primary"></i>
+                    </div>
+                    <h3 class="h4 mb-3">Événements culturels</h3>
+                    <p>Rencontres d'auteurs, clubs de lecture et ateliers pour tous les âges.</p>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Inscription</h5>
-                    <p class="card-text">Devenez membre et profitez de tous nos services.</p>
-                    <a href="/adherants/inscription" class="btn btn-primary">S'inscrire</a>
+    </div>
+
+    <!-- New Arrivals Section -->
+    <div class="bg-light py-5 mb-5">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="h3 mb-0"><i class="fas fa-star me-2 text-primary"></i>Nouveautés</h2>
+                <a th:href="@{/livres}" class="btn btn-sm btn-outline-primary">Voir tout</a>
+            </div>
+            <div class="row g-4">
+                <!-- Livre 1 -->
+                <div class="col-md-3">
+                    <div class="book-card h-100">
+                        <div class="book-cover mb-3">
+                            <img src="/images/book1.jpg" alt="Couverture de livre" class="img-fluid rounded shadow">
+                        </div>
+                        <h4 class="h6 mb-1">Le Château des étoiles</h4>
+                        <p class="text-muted small mb-2">Alex Alice</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-primary">Disponible</span>
+                            <a href="#" class="btn btn-sm btn-outline-primary">Détails</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Livre 2 -->
+                <div class="col-md-3">
+                    <div class="book-card h-100">
+                        <div class="book-cover mb-3">
+                            <img src="/images/book2.jpg" alt="Couverture de livre" class="img-fluid rounded shadow">
+                        </div>
+                        <h4 class="h6 mb-1">L'Art subtil de s'en foutre</h4>
+                        <p class="text-muted small mb-2">Mark Manson</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-primary">Disponible</span>
+                            <a href="#" class="btn btn-sm btn-outline-primary">Détails</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Livre 3 -->
+                <div class="col-md-3">
+                    <div class="book-card h-100">
+                        <div class="book-cover mb-3">
+                            <img src="/images/book3.jpg" alt="Couverture de livre" class="img-fluid rounded shadow">
+                        </div>
+                        <h4 class="h6 mb-1">La Nuit des temps</h4>
+                        <p class="text-muted small mb-2">René Barjavel</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-warning text-dark">Réservé</span>
+                            <a href="#" class="btn btn-sm btn-outline-primary">Détails</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Livre 4 -->
+                <div class="col-md-3">
+                    <div class="book-card h-100">
+                        <div class="book-cover mb-3">
+                            <img src="/images/book4.jpg" alt="Couverture de livre" class="img-fluid rounded shadow">
+                        </div>
+                        <h4 class="h6 mb-1">Le Meilleur des mondes</h4>
+                        <p class="text-muted small mb-2">Aldous Huxley</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="badge bg-primary">Disponible</span>
+                            <a href="#" class="btn btn-sm btn-outline-primary">Détails</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title">Connexion</h5>
-                    <p class="card-text">Connectez-vous pour accéder à votre espace personnel.</p>
-                    <a href="/adherants/login" class="btn btn-primary">Se connecter</a>
+    </div>
+
+    <!-- Events Section -->
+    <div class="container mb-5">
+        <h2 class="h3 mb-4"><i class="fas fa-calendar-day me-2 text-primary"></i>Événements à venir</h2>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="event-card p-4 rounded shadow-sm h-100">
+                    <div class="d-flex">
+                        <div class="event-date me-4 text-center">
+                            <div class="bg-primary text-white p-2 rounded">
+                                <div class="fw-bold">15</div>
+                                <div class="small">JUIN</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="h5 mb-1">Rencontre avec l'auteur</h3>
+                            <p class="text-muted small mb-2"><i class="fas fa-clock me-1"></i>18h00 - 20h00</p>
+                            <p>Rencontre avec Marie Dupont pour son nouveau roman "Les Chemins de l'aube".</p>
+                            <a href="#" class="btn btn-sm btn-primary">S'inscrire</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="event-card p-4 rounded shadow-sm h-100">
+                    <div class="d-flex">
+                        <div class="event-date me-4 text-center">
+                            <div class="bg-primary text-white p-2 rounded">
+                                <div class="fw-bold">22</div>
+                                <div class="small">JUIN</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="h5 mb-1">Club de lecture</h3>
+                            <p class="text-muted small mb-2"><i class="fas fa-clock me-1"></i>16h00 - 18h00</p>
+                            <p>Discussion autour du livre "L'Étranger" d'Albert Camus.</p>
+                            <a href="#" class="btn btn-sm btn-primary">S'inscrire</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials -->
+    <div class="bg-light py-5">
+        <div class="container">
+            <h2 class="h3 text-center mb-5"><i class="fas fa-quote-left me-2 text-primary"></i>Ce que nos membres disent</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="testimonial p-4 rounded h-100">
+                        <div class="mb-3 text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="mb-3">"La meilleure bibliothèque de la ville ! Une collection impressionnante et un personnel toujours serviable."</p>
+                        <div class="d-flex align-items-center">
+                            <img src="/images/user1.jpg" alt="Membre" class="rounded-circle me-2" width="40">
+                            <div>
+                                <div class="fw-bold">Sophie Martin</div>
+                                <div class="text-muted small">Membre depuis 2018</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial p-4 rounded h-100">
+                        <div class="mb-3 text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p class="mb-3">"J'adore les événements culturels organisés chaque mois. Une vraie bouffée d'air frais !"</p>
+                        <div class="d-flex align-items-center">
+                            <img src="/images/user2.jpg" alt="Membre" class="rounded-circle me-2" width="40">
+                            <div>
+                                <div class="fw-bold">Thomas Leroy</div>
+                                <div class="text-muted small">Membre depuis 2020</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="testimonial p-4 rounded h-100">
+                        <div class="mb-3 text-warning">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <p class="mb-3">"Le système de réservation en ligne est très pratique. Je peux réserver mes livres depuis chez moi."</p>
+                        <div class="d-flex align-items-center">
+                            <img src="/images/user3.jpg" alt="Membre" class="rounded-circle me-2" width="40">
+                            <div>
+                                <div class="fw-bold">Émilie Petit</div>
+                                <div class="text-muted small">Membre depuis 2021</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

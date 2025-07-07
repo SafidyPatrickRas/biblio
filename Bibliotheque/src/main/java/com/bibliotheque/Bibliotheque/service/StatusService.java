@@ -1,35 +1,48 @@
 package com.bibliotheque.Bibliotheque.service;
 
-import com.bibliotheque.Bibliotheque.model.Status;
-import com.bibliotheque.Bibliotheque.repository.StatusRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import com.bibliotheque.Bibliotheque.model.Status;
+import com.bibliotheque.Bibliotheque.repository.StatusRepository;
 
 @Service
 public class StatusService {
-
     @Autowired
     private StatusRepository statusRepository;
 
-    public List<Status> findAll() {
-        return statusRepository.findAll();
+    // findByNom
+    public Status findByNom(String nom) {
+        return statusRepository.findByNom(nom).orElse(null);
+    }
+    // Create
+    public void createStatus(Status status) {
+        statusRepository.save(status);
     }
 
-    public Optional<Status> findById(Integer id) {
-        return statusRepository.findById(id);
+    // Read
+    public Status getStatusById(Integer id) {
+        return statusRepository.findById(id).orElse(null);
     }
 
-    public Status save(Status status) {
-        return statusRepository.save(status);
+    public Status findStatusByNom(String nom) {
+        return statusRepository.findByNom(nom).orElse(null);
     }
 
-    public void deleteById(Integer id) {
+    // Update
+    public void updateStatus(Status status) {
+        statusRepository.save(status);
+    }
+
+    // Delete
+    public void deleteStatus(Integer id) {
         statusRepository.deleteById(id);
     }
-    public Optional<Status> findByNom(String nom) {
-        return statusRepository.findByNom(nom); 
+
+    // find all
+    public List<Status> getAllStatus() {
+        return statusRepository.findAll();
     }
 }

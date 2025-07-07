@@ -1,15 +1,21 @@
 package com.bibliotheque.Bibliotheque.repository;
 
-import com.bibliotheque.Bibliotheque.model.ReglePret;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-import java.util.List;
 import java.util.Optional;
 
-@Repository
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.bibliotheque.Bibliotheque.model.Profil;
+import com.bibliotheque.Bibliotheque.model.ReglePret;
+import com.bibliotheque.Bibliotheque.model.TypePret;
+
 public interface ReglePretRepository extends JpaRepository<ReglePret, Integer> {
-    
-    Optional<ReglePret> findFirstByProfilIdAndTypePretId(Integer idProfil, Integer idTypePret);
-    List<ReglePret> findByProfilId(Integer idProfil);
-    List<ReglePret> findByTypePretId(Integer idTypePret);
+
+    // Recuperer la regle par le profil
+    Optional<ReglePret> findByProfil(Profil profil);
+
+    // Recuperer la regle par le type de pret
+    Optional<ReglePret> findByTypePret(TypePret typePret);
+
+    // Recuperer la regle par le type de pret et le profil
+    Optional<ReglePret> findByTypePretAndProfil(TypePret typePret, Profil profil);
 }

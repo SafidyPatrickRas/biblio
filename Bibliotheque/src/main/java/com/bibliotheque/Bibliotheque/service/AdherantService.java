@@ -1,33 +1,30 @@
 package com.bibliotheque.Bibliotheque.service;
 
-import com.bibliotheque.Bibliotheque.model.Adherant;
-import com.bibliotheque.Bibliotheque.model.Abonnement;
-import com.bibliotheque.Bibliotheque.repository.AdherantRepository;
-import com.bibliotheque.Bibliotheque.repository.AbonnementRepository;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import com.bibliotheque.Bibliotheque.model.Adherant;
+import com.bibliotheque.Bibliotheque.repository.AdherantRepository;
 
 @Service
 public class AdherantService {
-
     @Autowired
     private AdherantRepository adherantRepository;
+    // CRUD
 
-    @Autowired
-    private AbonnementRepository abonnementRepository;
-
-    public List<Adherant> findAll() {
-        return adherantRepository.findAll();
+    // Create
+    public void createAdherant(Adherant adherant) {
+        adherantRepository.save(adherant);
     }
 
-    public Optional<Adherant> findById(Integer id) {
-        return adherantRepository.findById(id);
+    // Read
+    public Adherant getAdherantById(Integer id) {
+        return adherantRepository.findById(id).orElse(null);
     }
 
+<<<<<<< Updated upstream
     public Adherant getAdherantById(Integer id) {
         return adherantRepository.findById(id).orElse(null);
     }
@@ -50,31 +47,46 @@ public class AdherantService {
         return abonnements.stream()
                 .anyMatch(abonnement -> abonnement.getDateInscription().before(dateCourante) && 
                            (abonnement.getDateFinInscription() == null || abonnement.getDateFinInscription().after(dateCourante)));
+=======
+    // Update
+    public void updateAdherant(Adherant adherant) {
+        adherantRepository.save(adherant);
+>>>>>>> Stashed changes
     }
 
-    public Optional<Adherant> findByEmail(String email) {
-        return adherantRepository.findByEmail(email);
-    }
-
-    public Adherant save(Adherant adherant) {
-        return adherantRepository.save(adherant);
-    }
-
-    public void deleteById(Integer id) {
+    // Delete
+    public void deleteAdherant(Integer id) {
         adherantRepository.deleteById(id);
     }
 
-    public Adherant authenticate(String email, String motDePasse) {
-        Optional<Adherant> adherant = adherantRepository.findByEmail(email);
-        if (adherant.isPresent() && adherant.get().getMotDePasse().equals(motDePasse)) {
-            return adherant.get();
-        }
-        return null;
+    // Get all adherants
+    public List<Adherant> getAllAdherants() {
+        return adherantRepository.findAll();
     }
 
+<<<<<<< Updated upstream
     // Méthodes de comptage
     public long countAll() {
         return adherantRepository.count();
     }
 
 }
+=======
+    // Additional methods can be added as needed
+
+    // Trouver par email
+    public Adherant findByEmail(String email) {
+        Optional<Adherant> optionalAdherant = adherantRepository.findByEmail(email);
+        if (optionalAdherant.isPresent()) {
+            return optionalAdherant.get();
+        }
+        return null; 
+    }
+
+    // Trouver par profil
+    public List<Adherant> findByProfilId(Integer profilId) {
+        return adherantRepository.findByProfilId(profilId);
+    }
+
+}
+>>>>>>> Stashed changes

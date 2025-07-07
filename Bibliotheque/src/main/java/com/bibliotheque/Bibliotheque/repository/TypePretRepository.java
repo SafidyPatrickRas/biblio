@@ -1,10 +1,15 @@
 package com.bibliotheque.Bibliotheque.repository;
 
-import com.bibliotheque.Bibliotheque.model.TypePret;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.bibliotheque.Bibliotheque.model.TypePret;
+
 public interface TypePretRepository extends JpaRepository<TypePret, Integer> {
-    TypePret findByNom(String nom);
+    // Trouver par nom
+    Optional<TypePret> findByNom(String nom);
+    
+    // Trouver par id
 }

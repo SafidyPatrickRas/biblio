@@ -1,0 +1,585 @@
+/* Style pour la navigation verticale - Thème Bibliothèque */
+:root {
+    --primary-color: #5d4037; /* Marron foncé */
+    --secondary-color: #8d6e63; /* Marron moyen */
+    --accent-color: #d7ccc8; /* Marron clair */
+    --light-color: #efebe9; /* Marron très clair */
+    --text-dark: #3e2723; /* Marron très foncé */
+    --text-light: #f5f5f5; /* Blanc cassé */
+}
+
+.sidebar {
+    height: 100vh;
+    width: 250px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding-top: 20px;
+    z-index: 1000;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .nav-link {
+    color: var(--text-light);
+    padding: 12px 20px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin: 5px 10px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar .nav-link i {
+    margin-right: 10px;
+    font-size: 1.1rem;
+}
+
+.sidebar .nav-link:hover {
+    color: var(--text-light);
+    background-color: var(--secondary-color);
+}
+
+.sidebar .nav-link.active {
+    color: var(--text-light);
+    background-color: var(--secondary-color);
+    font-weight: 500;
+}
+
+/* Style pour la navigation */
+.col-md-3.col-lg-2 {
+    padding: 0;
+    min-height: 100vh;
+    background-color: var(--light-color);
+}
+
+/* Style pour le contenu principal */
+.col-md-9.col-lg-10 {
+    padding: 30px;
+    min-height: 100vh;
+    background-color: var(--light-color);
+}
+
+/* Style pour l'en-tête de page */
+.page-header {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.page-header h1 {
+    color: var(--primary-color);
+    margin: 0;
+    font-weight: 600;
+}
+
+/* Style pour les cartes */
+.card {
+    margin-bottom: 25px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    border-bottom: none;
+    padding: 15px 20px;
+    border-radius: 5px 5px 0 0 !important;
+}
+
+.card-body {
+    padding: 25px;
+}
+
+/* Style pour les boutons */
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    padding: 8px 20px;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* Style pour les tableaux */
+.table {
+    margin-bottom: 20px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.table th {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 12px;
+}
+
+.table td {
+    padding: 12px;
+    vertical-align: middle;
+}
+
+.table tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Style pour les messages flash */
+.alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 300px;
+    border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px 20px;
+}
+
+/* Style pour les formulaires */
+.form-control {
+    padding: 10px 15px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.form-control:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.25rem rgba(93, 64, 55, 0.25);
+}
+
+.form-label {
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 8px;
+}
+
+/* Style pour les badges */
+.badge {
+    padding: 6px 10px;
+    font-weight: 500;
+}
+
+.badge-primary {
+    background-color: var(--primary-color);
+}
+
+/* Style pour les icônes */
+.icon-lg {
+    font-size: 1.5rem;
+    margin-right: 10px;
+    color: var(--primary-color);
+}
+
+/* Style pour les éléments de liste */
+.list-group-item {
+    padding: 15px 20px;
+    border-left: none;
+    border-right: none;
+}
+
+.list-group-item:first-child {
+    border-top: none;
+}
+
+/* Style pour le pied de page */
+.footer {
+    background-color: var(--primary-color);
+    color: var(--text-light);
+    padding: 20px 0;
+    margin-top: 50px;
+}
+
+/* Animation pour les transitions */
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to {
+    opacity: 0;
+}
+
+/* ====================== */
+/* STYLES GENERAUX FORMULAIRE */
+/* ====================== */
+
+/* Style de base pour tous les formulaires */
+.form-card {
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.form-card .card-header {
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.form-card .card-header h3 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Groupes de champs */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+/* Inputs et selects */
+.input-group-text {
+    background-color: var(--light-color);
+    border-right: none;
+    color: var(--primary-color);
+}
+
+.form-control, 
+.form-select {
+    border-left: none;
+    padding: 0.75rem 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus, 
+.form-select:focus {
+    box-shadow: 0 0 0 0.25rem rgba(93, 64, 55, 0.1);
+    border-color: var(--secondary-color);
+}
+
+/* Messages d'erreur */
+.invalid-feedback {
+    display: block;
+    margin-top: 0.25rem;
+    color: #dc3545;
+    font-size: 0.875rem;
+}
+
+/* Boutons de formulaire */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2rem;
+    gap: 1rem;
+}
+
+/* Liens secondaires */
+.form-footer-links {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.form-footer-links p {
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.form-footer-links a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: 500;
+}
+
+.form-footer-links a:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+/* ====================== */
+/* RESPONSIVE */
+/* ====================== */
+
+@media (max-width: 768px) {
+    .form-card {
+        margin-top: 1rem;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn {
+        width: 100%;
+    }
+}
+
+/* ====================== */
+/* STYLES POUR LA LISTE DE LIVRES */
+/* ====================== */
+
+/* En-tête de page */
+.page-header {
+    padding: 1rem 1.5rem;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.page-header h2 {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.page-header hr {
+    opacity: 0.3;
+    margin: 1rem 0 0;
+}
+
+/* Carte de livre */
+.livre-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-left: 4px solid var(--primary-color);
+}
+
+.livre-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.livre-card .card-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.livre-card .card-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding-bottom: 0.5rem;
+}
+
+.livre-meta {
+    flex-grow: 1;
+}
+
+.livre-meta p {
+    margin-bottom: 0.5rem;
+}
+
+.livre-actions {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Modal de réservation */
+.modal-header {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.modal-header .btn-close {
+    filter: invert(1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .livre-card {
+        margin-bottom: 1.5rem;
+    }
+    
+    .page-header {
+        padding: 1rem;
+    }
+}
+
+/* ====================== */
+/* STYLES POUR LA PAGE D'ACCUEIL */
+/* ====================== */
+
+/* Hero Section */
+.hero-section {
+    background-color: var(--light-color);
+    border-radius: 0 0 20px 20px;
+}
+
+.hero-section h1 {
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+/* Feature Cards */
+.feature-card {
+    background: white;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.icon-wrapper {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(93, 64, 55, 0.1);
+    border-radius: 50%;
+}
+
+/* Book Cards */
+.book-card {
+    transition: all 0.3s ease;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.book-cover {
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f5f5;
+}
+
+.book-cover img {
+    max-height: 100%;
+    width: auto;
+}
+
+/* Event Cards */
+.event-card {
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.event-date {
+    min-width: 60px;
+}
+
+/* Testimonials */
+.testimonial {
+    background: white;
+    transition: all 0.3s ease;
+}
+
+.testimonial:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-section {
+        text-align: center;
+        padding: 3rem 0;
+    }
+    
+    .hero-section .btn {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .book-card {
+        margin-bottom: 1.5rem;
+    }
+}
+
+
+/* ====================== */
+/* STYLES POUR LA PAGE DE PROFIL */
+/* ====================== */
+
+/* En-tête de profil */
+.profile-page .page-header {
+    padding: 1rem 1.5rem;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Informations profil */
+.profile-info {
+    font-size: 1.1rem;
+    padding: 0.5rem;
+    background-color: var(--light-color);
+    border-radius: 4px;
+    border-left: 3px solid var(--primary-color);
+}
+
+/* Avatar placeholder */
+.avatar-placeholder {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(93, 64, 55, 0.1);
+    border-radius: 50%;
+}
+
+/* List group personnalisé */
+.list-group-item {
+    border-color: rgba(0,0,0,0.05);
+    padding: 0.75rem 1.25rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .profile-page .col-lg-4 {
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .profile-info {
+        font-size: 1rem;
+    }
+    
+    .avatar-placeholder {
+        width: 80px;
+        height: 80px;
+    }
+}

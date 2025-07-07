@@ -1,0 +1,78 @@
+<div class="container mt-4">
+    <!-- En-tête de page -->
+    <div class="page-header mb-4">
+        <h2><i class="fas fa-book-open icon-lg me-2"></i>Liste des livres</h2>
+        <hr class="border-primary">
+    </div>
+
+    <!-- Liste des livres -->
+    <div class="row">
+        <div th:each="livre : ${livres}" class="col-lg-6 mb-4">
+            <div class="card livre-card h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-primary" th:text="${livre.titre}">Titre du livre</h5>
+                    
+                    <div class="livre-meta mb-3">
+                        <p class="mb-1">
+                            <i class="fas fa-calendar-alt me-2 text-muted"></i>
+                            <span th:text="${livre.datePublication}">Date de publication</span>
+                        </p>
+                        <p class="mb-1">
+                            <i class="fas fa-user-edit me-2 text-muted"></i>
+                            <span th:text="'Auteur: ' + ${livre.auteur.nom}">Auteur du livre</span>
+                        </p>
+                        <p class="mb-1">
+                            <i class="fas fa-tags me-2 text-muted"></i>
+                            <span>Catégories: </span>
+                            <span th:each="cat,iter : ${livre.categories}">
+                                <span th:text="${cat.nom}"></span><span th:if="${!iter.last}">, </span>
+                            </span>
+                        </p>
+                    </div>
+
+                    <div class="livre-actions d-flex justify-content-between">
+                        <a th:href="@{/livres/{id}(id=${livre.id})}" class="btn btn-outline-primary btn-sm">
+                            <i class="fas fa-info-circle me-1"></i> Détails
+                        </a>
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                            th:attr="data-bs-target='#reservationModal-' + ${livre.id}">
+                            <i class="fas fa-bookmark me-1"></i> Réserver
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal de réservation -->
+            <div class="modal fade" th:id="'reservationModal-' + ${livre.id}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form th:action="@{/reservations/create}" method="post">
+                            <input type="hidden" name="livreId" th:value="${livre.id}">
+
+                            <div class="modal-header">
+                                <h5 class="modal-title" th:text="'Réserver: ' + ${livre.titre}"></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Date de réservation</label>
+                                    <input type="date" name="dateReservation" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                                    <i class="fas fa-times me-1"></i> Annuler
+                                </button>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-check me-1"></i> Confirmer
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

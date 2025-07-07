@@ -1,5 +1,18 @@
 package com.bibliotheque.Bibliotheque.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Date;
+import java.util.List;
+
 import com.bibliotheque.Bibliotheque.model.Adherant;
 import com.bibliotheque.Bibliotheque.model.Livre;
 import com.bibliotheque.Bibliotheque.model.RegleReservation;
@@ -12,6 +25,7 @@ import com.bibliotheque.Bibliotheque.service.ReservationService;
 import com.bibliotheque.Bibliotheque.service.StatusService;
 
 import jakarta.servlet.http.HttpSession;
+<<<<<<< Updated upstream
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -22,20 +36,22 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+=======
+>>>>>>> Stashed changes
 
 @Controller
 @RequestMapping("/reservations")
 public class ReservationController {
-
     @Autowired
     private ReservationService reservationService;
 
     @Autowired
-    private LivreService livreService; // Assurez-vous d'avoir un service pour gérer les livres
+    private AdherantService adherantService;
 
     @Autowired
-    private StatusService statusService; // Assurez-vous d'avoir un service pour gérer les stat
+    private LivreService livreService;
 
+<<<<<<< Updated upstream
     @Autowired
     private AdherantService adherantService;
 
@@ -165,3 +181,122 @@ public String ajouterReservation(
     // Ajoute d'autres routes selon tes besoins
     // Removed duplicate method definition to resolve the error.
 }
+=======
+
+    @Autowired
+    private StatusService statusService;
+    
+     @PostMapping("/accept")
+    public String acceptReservation(
+            @RequestParam("reservationId") Integer reservationId,
+            RedirectAttributes redirectAttributes) {
+        
+        try {
+            Reservation reservation = reservationService.getReservationById(reservationId);
+
+            if(reservation == null) {
+                redirectAttributes.addFlashAttribute("message", "Réservation non trouvée.");
+                redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+                return "redirect:/reservations";
+            }
+
+            Status status = statusService.findByNom("Accepté");
+            reservation.setStatus(status);
+
+            statusService.updateStatus(status);
+
+            redirectAttributes.addFlashAttribute("message", "Réservation acceptée avec succès");
+            redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", "Erreur lors de l'acceptation: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+        }
+        
+        return "redirect:/livres/list";
+    }
+
+     @PostMapping("/refuse")
+    public String rejectReservation(
+            @RequestParam("reservationId") Integer reservationId,
+            RedirectAttributes redirectAttributes) {
+        
+        try {
+            Reservation reservation = reservationService.getReservationById(reservationId);
+
+            if(reservation == null) {
+                redirectAttributes.addFlashAttribute("message", "Réservation non trouvée.");
+                redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+                return "redirect:/reservations";
+            }
+
+            Status status = statusService.findByNom("Refusé");
+            reservation.setStatus(status);
+
+            statusService.updateStatus(status);
+
+            redirectAttributes.addFlashAttribute("message", "Réservation acceptée avec succès");
+            redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", "Erreur lors de l'acceptation: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+        }
+        
+        return "redirect:/livres/list";
+    }
+
+    // Page d'accueil des réservations
+    @GetMapping("/list")
+    public String listReservations(Model model) {
+        List<Reservation> reservations = reservationService.findAllReservations();
+        model.addAttribute("reservations", reservations);
+        model.addAttribute("page", "reservation/list");
+        return "template";
+    }
+
+    @PostMapping("/create")
+    public String createReservation(
+            @RequestParam("livreId") Integer livreId,
+            @RequestParam("dateReservation") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateReservation,
+            RedirectAttributes redirectAttributes,
+            HttpSession session) {
+        try {
+            Adherant adherant = (Adherant) session.getAttribute("adherant");
+            
+            if(adherant == null) {
+                redirectAttributes.addFlashAttribute("message", "Vous devez être connecté pour effectuer une réservation.");
+                redirectAttributes.addFlashAttribute("alertClass", "alert-danger"); 
+                return "redirect:/adherants/login";
+            }
+
+            
+            Reservation reservation = new Reservation();
+            Livre livre = livreService.getLivreById(livreId);
+            if (livre == null) {
+                redirectAttributes.addFlashAttribute("message", "Prêt non trouvé.");
+                redirectAttributes.addFlashAttribute("alertClass", "alert-danger"); 
+                return "redirect:/livres/list";
+            }
+            Status status = statusService.findByNom("Envoyé");
+
+            if(status == null) {
+                redirectAttributes.addFlashAttribute("message", "Status non trouvé.");
+                redirectAttributes.addFlashAttribute("alertClass", "alert-danger"); 
+                return "redirect:/livres/list";
+            }
+
+            reservation.setLivre(livre);
+            reservation.setDateReservation(dateReservation);
+            reservation.setAdherant(adherant); // Assuming you have a method to get the current adherant
+            reservation.setStatus(status);
+
+            reservationService.createReservation(reservation);
+            redirectAttributes.addFlashAttribute("successMessage", "Réservation créée avec succès!");
+            return "redirect:/reservations/list";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Erreur lors de la création de la réservation: " + e.getMessage());
+            return "redirect:/reservations/list";
+        }
+    }
+
+}
+>>>>>>> Stashed changes

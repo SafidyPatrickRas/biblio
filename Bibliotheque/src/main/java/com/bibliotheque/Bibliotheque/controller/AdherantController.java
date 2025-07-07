@@ -1,5 +1,6 @@
 package com.bibliotheque.Bibliotheque.controller;
 
+<<<<<<< Updated upstream
 import com.bibliotheque.Bibliotheque.model.Adherant;
 import com.bibliotheque.Bibliotheque.model.Penalite;
 import com.bibliotheque.Bibliotheque.model.Pret;
@@ -17,6 +18,9 @@ import com.bibliotheque.Bibliotheque.model.Prolongement;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+=======
+import java.util.List;
+>>>>>>> Stashed changes
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,20 +30,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Date;
-import java.util.List;
+import com.bibliotheque.Bibliotheque.model.Adherant;
+import com.bibliotheque.Bibliotheque.model.Livre;
+import com.bibliotheque.Bibliotheque.model.Pret;
+import com.bibliotheque.Bibliotheque.model.Prolongement;
+import com.bibliotheque.Bibliotheque.service.AdherantService;
+import com.bibliotheque.Bibliotheque.service.PretService;
+import com.bibliotheque.Bibliotheque.service.ProfilService;
+import com.bibliotheque.Bibliotheque.service.ProlongementService;
+
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/adherants")
 public class AdherantController {
-
     @Autowired
     private AdherantService adherantService;
-    
-    @Autowired
-    private AbonnementService abonnementService;
 
     @Autowired
     private ProfilService profilService;
@@ -48,109 +58,77 @@ public class AdherantController {
     private PretService pretService;
 
     @Autowired
-    private PenaliteService penaliteService;
+    ProlongementService prolongementService;
 
+<<<<<<< Updated upstream
     @Autowired
     private ReservationService reservationService;
     
     @Autowired
     private ProlongementService prolongementService;
+=======
+    @GetMapping("/profil")
+    public String profil(Model model, HttpSession session, RedirectAttributes redirectAttrs) {
+        Adherant adherant = (Adherant) session.getAttribute("adherant");
 
-    // Afficher le formulaire d'insertion d'un nouvel adhérant
-    @GetMapping("/login")
-    public String showLoginForm(Model model) {
-        model.addAttribute("page", "adherant/login");
+        if(adherant == null) {
+            redirectAttrs.addFlashAttribute("message", "Vous devez vous connecter.");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
+            return "redirect:/adherants/login";
+        }
+
+        // Statistiques de l'adhérent
+        // findLivresPretesParAdherant
+        List<Livre> livresPretes = pretService.findLivresPretesParAdherant(adherant.getId());
+        model.addAttribute("nombrelivresPretes", livresPretes.size());
+
+        model.addAttribute("adherant", adherant);
+        model.addAttribute("page", "adherant/profil");
+        return "template";
+    }
+    
+    @GetMapping("/prets")
+    public String prets(Model model, HttpSession session , RedirectAttributes redirectAttrs) {
+        Adherant adherant = (Adherant) session.getAttribute("adherant");
+
+        if(adherant != null) {
+            redirectAttrs.addFlashAttribute("message", "Vous devez vous connecter.");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
+        }
+
+        // findPretsNonRendusParAdherant
+        List<Pret> pretsNonRendus = pretService.findPretsNonRendusParAdherant(adherant.getId());
+        model.addAttribute("pretsNonRendus", pretsNonRendus);
+
+
+        model.addAttribute("page", "adherant/prets");
+>>>>>>> Stashed changes
+
         return "template";
     }
 
     @PostMapping("/login")
-    public String processLogin(@ModelAttribute("email") String email,
-                              @ModelAttribute("motDePasse") String motDePasse,
-                              RedirectAttributes redirectAttrs,
-                              HttpSession session) {
-        Adherant adherant = adherantService.authenticate(email, motDePasse);
-        
-        if (adherant != null) {
-            session.setAttribute("adherant", adherant); // Sauvegarde en session
-            redirectAttrs.addFlashAttribute("message", "Connexion réussie !");
-            redirectAttrs.addFlashAttribute("alertClass", "alert-success");
-            return "redirect:/";
-        } else {
-            redirectAttrs.addFlashAttribute("message", "Email ou mot de passe incorrect");
+    public String traitementLogin(
+        @RequestParam("email") String email,
+        @RequestParam("motDePasse") String motDePasse, 
+        Model model,
+        RedirectAttributes redirectAttrs , 
+         HttpSession session
+    ) {
+        // Vérifier si l'email et le mot de passe sont valides
+        Adherant existingAdherant = adherantService.findByEmail(email);
+        if (existingAdherant == null || !existingAdherant.getMotDePasse().equals(motDePasse)) {
+            // Si l'email ou le mot de passe est incorrect, ajouter un message d'erreur
+            redirectAttrs.addFlashAttribute("message", "Email ou mot de passe incorrect.");
             redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
-            return "redirect:/adherants/login";
-        }
-    }
-
-    @GetMapping("/inscription")
-    public String showForm(Model model) {
-        model.addAttribute("adherant", new Adherant());
-        List<Profil> profils = profilService.getAll();
-        model.addAttribute("profils", profils);
-        model.addAttribute("page", "adherant/inscription");
-        return "template";
-    }
-
-    // Traiter le formulaire d'inscription
-    @PostMapping("/inscription")
-    public String processInscription(@Valid @ModelAttribute Adherant adherant, 
-                                    BindingResult bindingResult, 
-                                    Model model,
-                                    RedirectAttributes redirectAttrs) {
-        
-        // Vérifier si l'email existe déjà
-        if (adherantService.findByEmail(adherant.getEmail()).isPresent()) {
-            bindingResult.rejectValue("email", "error.email", "Cet email est déjà utilisé");
+            return "redirect:/adherants/login"; // Rediriger vers la page de connexion
         }
 
-        // Vérifier si le mot de passe est conforme
-        if (!isValidPassword(adherant.getMotDePasse())) {
-            bindingResult.rejectValue("motDePasse", "error.password", "Le mot de passe doit contenir au moins 8 caractères, une lettre majuscule, une lettre minuscule et un chiffre");
-        }
-
-        // Si des erreurs existent, retourner au formulaire
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("profils", profilService.getAll());
-            model.addAttribute("page", "adherant/inscription");
-            return "template";
-        }
-
-        try {
-            // Récupérer le profil sélectionné
-            Integer profilId = adherant.getProfil().getId();
-            Profil profil = profilService.getById(profilId);
-            if (profil == null) {
-                throw new RuntimeException("Profil non trouvé");
-            }
-            
-            // Mettre à jour le profil de l'adhérent
-            adherant.setProfil(profil);
-            
-            // Sauvegarder l'adhérent
-            adherantService.save(adherant);
-            redirectAttrs.addFlashAttribute("message", "Votre inscription a été effectuée avec succès !");
-            redirectAttrs.addFlashAttribute("alertClass", "alert-success");
-        } catch (Exception e) {
-            redirectAttrs.addFlashAttribute("message", "Une erreur est survenue lors de l'inscription. Veuillez réessayer.");
-            redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
-            return "redirect:/adherants/inscription";
-        }
-        
-        // Rediriger vers une page de confirmation
-        return "redirect:/";
-    }
-
-    private boolean isValidPassword(String password) {
-        return password.length() >= 8 &&
-               password.matches(".*[A-Z].*") &&
-               password.matches(".*[a-z].*") &&
-               password.matches(".*\\d.*");
-    }
-
-    @GetMapping("/success")
-    public String showSuccess(Model model) {
-        model.addAttribute("page", "adherant/success");
-        return "template";
+        session.setAttribute("adherant", existingAdherant); // Sauvegarde en session
+        // Si la connexion est réussie, rediriger vers la page d'accueil ou une autre page
+        redirectAttrs.addFlashAttribute("message", "Connexion réussie !");
+        redirectAttrs.addFlashAttribute("alertClass", "alert-success");
+        return "redirect:/"; // Rediriger vers la page d'accueil ou une autre page
     }
 
     @GetMapping("/logout")
@@ -160,6 +138,7 @@ public class AdherantController {
         redirectAttrs.addFlashAttribute("alertClass", "alert-success");
         return "redirect:/"; // Redirige vers la page d'accueil
     }
+<<<<<<< Updated upstream
 
     @GetMapping("/profil")
     public String afficherProfil(Model model, HttpSession session) {
@@ -223,6 +202,55 @@ public class AdherantController {
 
         model.addAttribute("page", "adherant/profil");
         
+=======
+    // Login
+    @GetMapping("/login")
+    public String showLoginForm(Model model) {
+        model.addAttribute("page", "adherant/login");
+>>>>>>> Stashed changes
         return "template";
+    }
+
+    // Inscription
+    @GetMapping("/inscription")
+    public String showInscriptionForm(Model model) {
+        model.addAttribute("adherant", new com.bibliotheque.Bibliotheque.model.Adherant());
+        model.addAttribute("profils", profilService.getAllProfils());
+        model.addAttribute("page", "adherant/inscription");
+
+        return "template";
+    }
+
+    @PostMapping("/inscription")
+    public String traitementInscription(
+        @Valid @ModelAttribute Adherant adherant, 
+                                    BindingResult bindingResult, 
+                                    Model model,
+                                    RedirectAttributes redirectAttrs
+    ){
+        // Vérifier si l'email existe déjà
+        if (adherantService.findByEmail(adherant.getEmail()) != null) {
+            bindingResult.rejectValue("email", "error.adherant", "Cet email est déjà utilisé.");
+        }
+
+
+        // Si des erreurs existent, retourner au formulaire
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("profils", profilService.getAllProfils());
+            model.addAttribute("page", "adherant/inscription");
+            return "template";
+        }
+
+        try {
+            // Enregistrer l'adhérent
+            adherantService.createAdherant(adherant);
+            redirectAttrs.addFlashAttribute("message", "Inscription réussie !");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-success");
+        } catch (Exception e) {
+             redirectAttrs.addFlashAttribute("message", "Une erreur est survenue lors de l'inscription. Veuillez réessayer.");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
+        }
+
+        return "redirect:/adherants/inscription";
     }
 }

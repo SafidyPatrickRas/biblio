@@ -1,16 +1,12 @@
 package com.bibliotheque.Bibliotheque.repository;
 
-import com.bibliotheque.Bibliotheque.model.Status;
-
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
+import com.bibliotheque.Bibliotheque.model.Status;
+
 public interface StatusRepository extends JpaRepository<Status, Integer> {
-    
-    // Ajoutez ici des méthodes personnalisées si besoin
+    // Recuperer le status par son nom
     Optional<Status> findByNom(String nom);
-
 }

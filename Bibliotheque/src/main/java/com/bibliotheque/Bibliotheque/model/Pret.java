@@ -22,14 +22,31 @@ public class Pret {
     private TypePret typePret;
 
     @Column(nullable = false)
+    private boolean estProlonge;
+
+    public boolean isEstProlonge() {
+        return estProlonge;
+    }
+
+    public void setEstProlonge(boolean estProlonge) {
+        this.estProlonge = estProlonge;
+    }
+
+    @Column(nullable = false)
     private Date dateDebut;
 
     @Column(nullable = false)
     private Date dateFin;
 
+<<<<<<< Updated upstream
     @Column(nullable = false)
     private Boolean isRetournee;
     private Date dateRendu;
+=======
+    @Column(nullable = true)
+    private Date dateRetour;
+
+>>>>>>> Stashed changes
 
     // Constructeurs
     public Pret() {
@@ -41,6 +58,7 @@ public class Pret {
         this.typePret = typePret;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
+        this.dateRetour = null; // Initialement, la date de retour est nulle
     }
 
     // Getters et Setters
@@ -92,6 +110,7 @@ public class Pret {
         this.dateFin = dateFin;
     }
 
+<<<<<<< Updated upstream
     public Boolean getIsRetournee() {
         return isRetournee;
     }
@@ -102,6 +121,10 @@ public class Pret {
 
     public Date getDateRendu() {
         return dateRendu;
+=======
+    public Date getDateRetour() {
+        return dateRetour;
+>>>>>>> Stashed changes
     }
 
     public void setDateRendu(Date dateRendu) {

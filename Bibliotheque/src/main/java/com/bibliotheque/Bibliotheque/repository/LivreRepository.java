@@ -1,19 +1,15 @@
 package com.bibliotheque.Bibliotheque.repository;
 
-import com.bibliotheque.Bibliotheque.model.Livre;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
 import java.util.Optional;
 
-@Repository
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.bibliotheque.Bibliotheque.model.Livre;
+
 public interface LivreRepository extends JpaRepository<Livre, Integer> {
-    
     // Trouver un livre par son titre
     Optional<Livre> findByTitre(String titre);
+<<<<<<< Updated upstream
     
     // Trouver tous les livres d'un auteur
     List<Livre> findByAuteurId(Integer idAuteur);
@@ -50,3 +46,6 @@ public interface LivreRepository extends JpaRepository<Livre, Integer> {
     long count();
 
 }
+=======
+}
+>>>>>>> Stashed changes

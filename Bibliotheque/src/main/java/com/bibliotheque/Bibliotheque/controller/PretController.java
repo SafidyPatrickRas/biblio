@@ -1,11 +1,25 @@
 package com.bibliotheque.Bibliotheque.controller;
+import org.springframework.ui.Model;
+
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bibliotheque.Bibliotheque.model.Adherant;
-
+import com.bibliotheque.Bibliotheque.model.ExemplaireLivre;
 import com.bibliotheque.Bibliotheque.model.Livre;
+import com.bibliotheque.Bibliotheque.model.Penalite;
 import com.bibliotheque.Bibliotheque.model.Pret;
 import com.bibliotheque.Bibliotheque.model.ReglePret;
-import com.bibliotheque.Bibliotheque.model.TypePret;
+import com.bibliotheque.Bibliotheque.service.AbonnementService;
 import com.bibliotheque.Bibliotheque.service.AdherantService;
 import com.bibliotheque.Bibliotheque.service.ExemplaireLivreService;
 import com.bibliotheque.Bibliotheque.service.LivreService;
@@ -14,6 +28,7 @@ import com.bibliotheque.Bibliotheque.service.PretService;
 import com.bibliotheque.Bibliotheque.service.ReglePretService;
 import com.bibliotheque.Bibliotheque.service.TypePretService;
 
+<<<<<<< Updated upstream
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -27,32 +42,38 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.List;
 
+=======
+>>>>>>> Stashed changes
 @Controller
-@Transactional
-@RequestMapping("/pret")
+@RequestMapping("/prets")
 public class PretController {
 
+    
     @Autowired
     private PretService pretService;
-
-    @Autowired
-    private AdherantService adherantService;
-
-    @Autowired
-    private ExemplaireLivreService exemplaireLivreService;
-
-    @Autowired
-    private TypePretService typePretService;
-
-    @Autowired
-    private LivreService livreService;
 
     @Autowired
     private ReglePretService reglePretService;
 
     @Autowired
+    private AdherantService adherantService;
+
+    @Autowired
+    private TypePretService typePretService;
+
+    @Autowired 
+    private LivreService livreService;
+
+    @Autowired
+    private AbonnementService abonnementService;
+
+    @Autowired
+    ExemplaireLivreService exemplaireLivreService;
+
+    @Autowired
     PenaliteService penaliteService;
 
+<<<<<<< Updated upstream
     @PostMapping("/ajouter")
     public String enregistrerPret(
             @RequestParam String adherantEmail,
@@ -202,9 +223,60 @@ public class PretController {
         Pret pret = pretService.getPretById(id);
         if (pret == null) {
             redirectAttrs.addFlashAttribute("message", "Prêt non trouvé");
+=======
+     @PostMapping("/retour")
+    public String retournerPret(
+            @RequestParam("pretId") Integer pretId,
+            @RequestParam("dateRetour") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateRetour,
+            RedirectAttributes redirectAttributes) {
+
+            // Vérification de l'existence du prêt
+            Pret pret = pretService.getPretById(pretId);
+            if (pret == null) {
+                redirectAttributes.addFlashAttribute("message", "Prêt non trouvé.");
+                redirectAttributes.addFlashAttribute("alertClass", "alert-danger"); 
+            }
+            // Vérification de la date de retour
+            if (dateRetour == null) {
+                redirectAttributes.addFlashAttribute("message", "La date de retour est obligatoire.");
+                redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+            }
+
+            if (dateRetour.before(pret.getDateDebut()) || dateRetour.after(pret.getDateFin())) {
+                redirectAttributes.addFlashAttribute("message", "La date de retour doit être comprise entre la date de début et la date de fin du prêt.");
+                redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+            }
+
+            // Mise à jour du prêt
+            pret.setDateRetour(dateRetour);
+            pretService.updatePret(pret);
+            redirectAttributes.addFlashAttribute("message", "Prêt retourné avec succès.");
+            redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
+
+                return "redirect:/prets/list"; // Redirection vers la liste des prêts
+            }
+
+    
+    // Create Pret
+    @PostMapping("/create")
+    public String createPret(
+        @RequestParam("adherant") String email,
+        @RequestParam("typePret") Integer typePret,
+        @RequestParam("livre") String livre,
+        @RequestParam("dateDebut") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateDebut,
+        @RequestParam("dateFin") @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateFin,
+         RedirectAttributes redirectAttrs
+        ) {
+
+        // Existance d adherant
+        if (adherantService.findByEmail(email) == null) {
+            redirectAttrs.addFlashAttribute("message", "Adhérent non trouvé.");
+>>>>>>> Stashed changes
             redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
-            return "redirect:/pret/liste";
+            return "redirect:/prets/create"; // Redirection vers le formulaire de creation
         }
+<<<<<<< Updated upstream
         if (pret.getIsRetournee()) {
             redirectAttrs.addFlashAttribute("message", "Le livre a déjà été rendu");
             redirectAttrs.addFlashAttribute("alertClass", "alert-warning");
@@ -218,3 +290,124 @@ public class PretController {
         return "redirect:/pret/liste";
     }
 }
+=======
+
+        Adherant adherant = adherantService.findByEmail(email);
+
+        // Vérification de l'abonnement de l'adhérent
+        if (!abonnementService.estAbonneeAdherant(dateDebut , adherant.getId())) {
+            redirectAttrs.addFlashAttribute("message", "L'adhérent n'est pas abonné.");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
+            return "redirect:/prets/create"; // Redirection vers le formulaire de creation
+        }
+
+        // Varification des dates
+        if (dateDebut == null || dateFin == null) {
+            redirectAttrs.addFlashAttribute("message", "Les dates de début et de fin sont obligatoires.");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
+            return "redirect:/prets/create"; // Redirection vers le formulaire de creation
+        }
+
+        // Verifcation si l adherant est en penalite 
+         List<Penalite> penalitesExistantes = penaliteService.findPenalitesActivesByAdherant(dateDebut , adherant.getId());
+
+        if (!penalitesExistantes.isEmpty()) {
+             redirectAttrs.addFlashAttribute("message", "L adherant es encore en penalite.");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
+            return "redirect:/prets/create"; // Redirection vers le formulaire de creation
+        }
+
+        if (dateFin.before(dateDebut)) {
+            redirectAttrs.addFlashAttribute("message", "La date de fin doit être postérieure à la date de début.");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
+            return "redirect:/prets/create"; // Redirection vers le formulaire de creation
+        }
+
+        // Existance de livre
+        if (livreService.findByTitre(livre) == null) {
+            redirectAttrs.addFlashAttribute("message", "Livre non trouvé.");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
+            return "redirect:/prets/create"; // Redirection vers le formulaire de creation
+        }
+
+        Livre livreEntity = livreService.findByTitre(livre);
+
+
+
+        // Existance de type de pret
+        if (typePretService.getTypePretById(typePret) == null) {
+            redirectAttrs.addFlashAttribute("message", "Type de prêt non trouvé.");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
+        }
+
+        // Vérification des règles de prêt
+
+        // Nombre de pret actif pour l'adhérent
+        int nombrePretsActifs = pretService.findPretsNonRendusParAdherant(
+            adherantService.findByEmail(email).getId()
+        ).size();
+
+        ReglePret reglePret  = reglePretService.getReglePretById(typePret);
+
+        if (nombrePretsActifs >= reglePret.getNombreLivres()) {
+            redirectAttrs.addFlashAttribute("message", "Nombre maximum de prêts actifs atteint pour cet adhérent.");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
+            return "redirect:/prets/create"; // Redirection vers le formulaire de creation
+        }
+
+        //  Nombre d exemplaire du livre
+        ExemplaireLivre exemplaireLivre =  exemplaireLivreService.findByLivre(livreEntity);
+
+        if (exemplaireLivre == null || exemplaireLivre.getNombreExemplaires() <= 0) {
+            redirectAttrs.addFlashAttribute("message", "Aucun exemplaire disponible pour ce livre.");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
+            return "redirect:/prets/create"; // Redirection vers le formulaire de creation
+        }
+
+        int nombreExemplaireLivre = exemplaireLivre.getNombreExemplaires();
+        int nombreExemplaireLivreDisponible = nombreExemplaireLivre - pretService.findPretsNonRendusParLivre(livreEntity.getId()).size();
+
+        if (nombreExemplaireLivreDisponible <= 0) {
+            redirectAttrs.addFlashAttribute("message", "Aucun exemplaire disponible pour ce livre.");
+            redirectAttrs.addFlashAttribute("alertClass", "alert-danger");
+            return "redirect:/prets/create"; // Redirection vers le formulaire de creation
+        }
+
+        // Création du prêt
+        Pret pret = new Pret(
+            adherantService.findByEmail(email),
+            livreService.findByTitre(livre),
+            typePretService.getTypePretById(typePret),
+            dateDebut,
+            dateFin
+        );
+
+        pretService.createPret(pret);
+        redirectAttrs.addFlashAttribute("message", "Prêt créé avec succès.");
+        redirectAttrs.addFlashAttribute("alertClass", "alert-success");
+
+            return "redirect:/prets/create"; // Redirection vers le formulaire de creation
+    }
+
+
+    // Create
+    @GetMapping("/create")
+    public String createForm(Model model) {
+        model.addAttribute("page", "pret/create");
+        model.addAttribute("adherants", adherantService.getAllAdherants());
+        model.addAttribute("typePrets", typePretService.getAllTypePrets());
+        model.addAttribute("livres", livreService.getAllLivres());
+
+        return "template";
+    }
+
+    // List 
+    @GetMapping("/list")
+    public String listPrets(Model model) {
+        List<Pret> prets = pretService.getAllPrets();
+        model.addAttribute("prets", prets);
+        model.addAttribute("page", "pret/list");
+        return "template";
+    }
+}
+>>>>>>> Stashed changes

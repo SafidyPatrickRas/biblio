@@ -1,8 +1,8 @@
 package com.bibliotheque.Bibliotheque.model;
 
-import java.time.LocalDate;
 
-import org.hibernate.annotations.Table;
+
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,11 +26,11 @@ public class Penalite {
 
     @NotNull(message = "La date de début est obligatoire")
     @Column(name = "date_debut")
-    private LocalDate dateDebut;
+    private Date dateDebut;
 
     @NotNull(message = "La date de fin est obligatoire")
     @Column(name = "date_fin")
-    private LocalDate dateFin;
+    private Date dateFin;
 
     @NotNull(message = "Le nombre de jours est obligatoire")
     private Integer nombreJours;
@@ -55,19 +55,19 @@ public class Penalite {
         this.adherant = adherant;
     }
 
-    public LocalDate getDateDebut() {
+    public Date getDateDebut() {
         return dateDebut;
     }
 
-    public void setDateDebut(LocalDate dateDebut) {
+    public void setDateDebut(Date dateDebut) {
         this.dateDebut = dateDebut;
     }
 
-    public LocalDate getDateFin() {
+    public Date getDateFin() {
         return dateFin;
     }
 
-    public void setDateFin(LocalDate dateFin) {
+    public void setDateFin(Date dateFin) {
         this.dateFin = dateFin;
     }
 

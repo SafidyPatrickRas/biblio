@@ -1,67 +1,47 @@
 package com.bibliotheque.Bibliotheque.service;
 
-import com.bibliotheque.Bibliotheque.model.Livre;
-import com.bibliotheque.Bibliotheque.repository.LivreRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import com.bibliotheque.Bibliotheque.model.Livre;
+import com.bibliotheque.Bibliotheque.repository.LivreRepository;
 
 @Service
-@Transactional
 public class LivreService {
-    
     @Autowired
     private LivreRepository livreRepository;
 
-    // CRUD basique
-    public List<Livre> getAll() {
-        return livreRepository.findAllWithExemplaires();
+    // findByTitre
+    public Livre findByTitre(String titre) {
+
+        return livreRepository.findByTitre(titre).orElse(null);
     }
 
-    public Optional<Livre> findByTitreAndAuteur(String titre, String nomAuteur, String prenomAuteur) {
-        List<Livre> livres = livreRepository.findByTitreAndAuteurNomAndAuteurPrenom(titre, nomAuteur, prenomAuteur);
-        if (livres.isEmpty()) {
-            return Optional.empty();
-        }
-        // Si plusieurs livres sont trouvés, on prend le premier (on pourrait améliorer cette logique)
-        return Optional.of(livres.get(0));
-    }
+    // CRUD operations can be added here as needed
 
-    public Optional<Livre> getById(Integer id) {
-        return livreRepository.findById(id);
+    // Create 
+    public void createLivre(Livre livre) {
+        livreRepository.save(livre);
     }
-
-    public Livre create(Livre livre) {
-        return livreRepository.save(livre);
+    // Read
+    public Livre getLivreById(Integer id) {
+        return livreRepository.findById(id).orElse(null);
     }
-
-    public Livre update(Integer id, Livre livre) {
-        return livreRepository.findById(id)
-                .map(existingLivre -> {
-                    existingLivre.setTitre(livre.getTitre());
-                    existingLivre.setDatePublication(livre.getDatePublication());
-                    existingLivre.setNbPages(livre.getNbPages());
-                    existingLivre.setLangue(livre.getLangue());
-                    existingLivre.setTags(livre.getTags());
-                    existingLivre.setAgeRestriction(livre.getAgeRestriction());
-                    existingLivre.setAuteur(livre.getAuteur());
-                    existingLivre.setCategories(livre.getCategories());
-                    return livreRepository.save(existingLivre);
-                })
-                .orElseThrow(() -> new RuntimeException("Livre non trouvé avec l'ID : " + id));
+    // Update
+    public void updateLivre(Livre livre) {
+        livreRepository.save(livre);
     }
-
-    public void delete(Integer id) {
+    // Delete
+    public void deleteLivre(Integer id) {
         livreRepository.deleteById(id);
     }
 
-    // Méthodes spécifiques
-    public Optional<Livre> getByTitre(String titre) {
-        return livreRepository.findByTitre(titre);
+    public List<Livre> getAllLivres() {
+        return livreRepository.findAll();
     }
+<<<<<<< Updated upstream
 
     public List<Livre> getByAuteurId(Integer idAuteur) {
         return livreRepository.findByAuteurId(idAuteur);
@@ -94,4 +74,6 @@ public class LivreService {
         return livreRepository.count();
     }
 
+=======
+>>>>>>> Stashed changes
 }

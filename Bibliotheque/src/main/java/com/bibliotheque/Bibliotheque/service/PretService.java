@@ -1,10 +1,19 @@
 package com.bibliotheque.Bibliotheque.service;
 
+<<<<<<< Updated upstream
 import com.bibliotheque.Bibliotheque.model.Adherant;
+=======
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+>>>>>>> Stashed changes
 import com.bibliotheque.Bibliotheque.model.Livre;
 import com.bibliotheque.Bibliotheque.model.Pret;
 import com.bibliotheque.Bibliotheque.repository.AdherantRepository;
 import com.bibliotheque.Bibliotheque.repository.PretRepository;
+<<<<<<< Updated upstream
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,29 +25,39 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+=======
+>>>>>>> Stashed changes
 
 @Service
-@Transactional
 public class PretService {
     @Autowired
     private PretRepository pretRepository;
 
-    public List<Pret> getAllPretsOrderByDateDesc() {
-        return pretRepository.findAllOrderByDateDesc();
+    // findLivresPretesParAdherant
+    public List<Livre> findLivresPretesParAdherant(Integer adherantId) {
+        return pretRepository.findLivresPretesParAdherant(adherantId);
     }
 
-    public List<Pret> getAllPrets() {
-        return pretRepository.findAll();
+    // findPretsNonRendusParLivre
+    public List<Pret> findPretsNonRendusParLivre(Integer livreId) {
+        return pretRepository.findPretsNonRendusParLivre(livreId);
     }
 
+    public List<Pret> findPretsNonRendusParAdherant(Integer adherantId) {
+        return pretRepository.findPretsNonRendusParAdherant(adherantId);
+    }
+
+    // create
+    public void createPret(Pret pret) {
+        pretRepository.save(pret);
+    }
+
+    // read
     public Pret getPretById(Integer id) {
-        Optional<Pret> pretOptional = pretRepository.findById(id);
-        if (pretOptional.isPresent()) {
-            return pretOptional.get();
-        }
-        return null; // ou lancer une exception si nécessaire
+        return pretRepository.findById(id).orElse(null);
     }
 
+<<<<<<< Updated upstream
     public List<Pret> getPretsByAdherantId(Integer idAdherant) {
         return pretRepository.findByAdherantId(idAdherant);
     }
@@ -90,10 +109,18 @@ public class PretService {
         return message;
     }
 
+=======
+    // update
+    public void updatePret(Pret pret) {
+        pretRepository.save(pret);
+    }
+    // delete
+>>>>>>> Stashed changes
     public void deletePret(Integer id) {
         pretRepository.deleteById(id);
     }
 
+<<<<<<< Updated upstream
     // Compter les livres non retournés par ID de livre
     public long getNombreLivresNonRetournesParIdLivre(Integer idLivre) {
         return pretRepository.countByLivre_IdAndIsRetourneeFalse(idLivre);
@@ -106,5 +133,10 @@ public class PretService {
     // Alternative avec l'entité Livre
     public List<Pret> getPretsActifsPourLivre(Livre livre) {
         return pretRepository.findByIsRetourneeFalseAndLivre(livre);
+=======
+    // get add
+    public List<Pret> getAllPrets() {
+        return pretRepository.findAll();
+>>>>>>> Stashed changes
     }
 }

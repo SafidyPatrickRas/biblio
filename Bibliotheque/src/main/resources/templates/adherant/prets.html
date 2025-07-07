@@ -1,0 +1,67 @@
+<div class="container mt-5">
+    <h2>List des prets en cours</h2>
+
+    <table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Date debut</th>
+            <th>Date de fin</th>
+            <th>Livre</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="pretsNonRendu : ${pretsNonRendus}">
+            <td th:text="${pretsNonRendu.dateDebut}"></td>
+            <td th:text="${pretsNonRendu.dateFin}"></td>
+            <td th:text="${pretsNonRendu.livre.titre}"></td>
+            <td>
+                <div th:if="${!pretsNonRendu.estProlonge}">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" 
+                            data-bs-target="#prolongerModal" th:attr="data-id=${pretsNonRendu.id}">
+                        Prolonger
+                    </button>
+                </div>
+                <div th:if="${pretsNonRendu.estProlonge}">
+                    <span class="badge bg-success">Prolongé</span>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Modal -->
+<div class="modal fade" id="prolongerModal" tabindex="-1" aria-labelledby="prolongerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="prolongerModalLabel">Prolonger le prêt</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/prolongement/create}" method="post">
+                    <input type="hidden" id="pretId" name="pretId" />
+                    <div class="mb-3">
+                        <label for="nombreJours" class="form-label">Nouvelle date de fin</label>
+                        <input type="number" class="form-control" id="nombreJours" name="nombreJours" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Confirmer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const buttons = document.querySelectorAll('[data-bs-target="#prolongerModal"]');
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            const pretId = this.getAttribute('data-id');
+            document.getElementById('pretId').value = pretId;
+        });
+    });
+});
+</script>
+
+</div>

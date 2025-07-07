@@ -1,31 +1,36 @@
 package com.bibliotheque.Bibliotheque.service;
 
-import com.bibliotheque.Bibliotheque.model.Reservation;
-import com.bibliotheque.Bibliotheque.repository.ReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
-import java.util.Optional;
+
+import com.bibliotheque.Bibliotheque.model.Adherant;
+import com.bibliotheque.Bibliotheque.model.Reservation;
+import com.bibliotheque.Bibliotheque.model.Status;
+import com.bibliotheque.Bibliotheque.repository.ReservationRepository;
 
 @Service
 public class ReservationService {
-
     @Autowired
     private ReservationRepository reservationRepository;
 
-    public List<Reservation> findAll() {
-        return reservationRepository.findAll();
+    // Create
+    public void createReservation(Reservation reservation) {
+        reservationRepository.save(reservation);
     }
 
-    public Optional<Reservation> findById(Integer id) {
-        return reservationRepository.findById(id);
+    // Read
+    public Reservation getReservationById(Integer id) {
+        return reservationRepository.findById(id).orElse(null);
     }
 
-    public Reservation save(Reservation reservation) {
-        return reservationRepository.save(reservation);
+    public List<Reservation> getReservationsByAdherant(Adherant adherent) {
+        return reservationRepository.findByAdherant(adherent);
     }
 
+<<<<<<< Updated upstream
     public Reservation createReservation(Reservation reservation) {
         return reservationRepository.save(reservation);
     }
@@ -34,14 +39,32 @@ public class ReservationService {
         return reservationRepository.save(reservation);
     }
 
+=======
+
+    public List<Reservation> getReservationsByStatus(Status status) {
+        return reservationRepository.findByStatus(status);
+    }
+
+    public List<Reservation> getReservationsByDate(Date dateReservation) {
+        return reservationRepository.findByDateReservation(dateReservation);
+    }
+
+    // Update
+    public void updateReservation(Reservation reservation) {
+        reservationRepository.save(reservation);
+    }
+
+    // Delete
+>>>>>>> Stashed changes
     public void deleteReservation(Integer id) {
         reservationRepository.deleteById(id);
     }
 
-    // Récupérer toutes les réservations par nom de status
-    public List<Reservation> findByStatusNom(String nom) {
-        return reservationRepository.findByStatus_Nom(nom);
+    // get all
+    public List<Reservation> findAllReservations() {
+        return reservationRepository.findAll();
     }
+<<<<<<< Updated upstream
 
     public List<Reservation> findByAdherantId(Integer adherantId) {
         return reservationRepository.findByAdherant_Id(adherantId);
@@ -56,3 +79,6 @@ public class ReservationService {
         return reservationRepository.countByStatus_Nom("En cours");
     }
 }
+=======
+}
+>>>>>>> Stashed changes

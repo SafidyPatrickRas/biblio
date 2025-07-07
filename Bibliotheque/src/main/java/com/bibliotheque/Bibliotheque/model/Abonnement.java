@@ -3,6 +3,8 @@ package com.bibliotheque.Bibliotheque.model;
 import jakarta.persistence.*;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 public class Abonnement {
     
@@ -11,9 +13,11 @@ public class Abonnement {
     private Integer id;
 
     @Column(name = "date_inscription", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateInscription;
 
     @Column(name = "date_fin_inscription", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date dateFinInscription;
 
     @ManyToOne

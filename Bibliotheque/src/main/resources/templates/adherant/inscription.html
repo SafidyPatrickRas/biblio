@@ -1,38 +1,116 @@
 <div class="container mt-5">
-    <h2>Inscription d'un nouvel adhérant</h2>
-    <form th:action="@{/adherants/inscription}" th:object="${adherant}" method="post">
-        <div class="mb-3">
-            <label for="nom" class="form-label">Nom</label>
-            <input type="text" th:field="*{nom}" class="form-control" id="nom" required maxlength="50">
-            <span class="text-danger" th:if="${#fields.hasErrors('nom')}" th:errors="*{nom}"></span>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="mb-0 text-center"><i class="fas fa-user-plus icon-lg me-2"></i>Inscription</h3>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/adherants/inscription}" method="post" th:object="${adherant}" class="needs-validation" novalidate>
+                        <!-- Nom -->
+                        <div class="form-group mb-4">
+                            <label for="nom" class="form-label">Nom:</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-user text-primary"></i>
+                                </span>
+                                <input type="text" id="nom" name="nom" th:field="*{nom}" 
+                                       class="form-control" required placeholder="Votre nom">
+                            </div>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('nom')}" 
+                                 th:errors="*{nom}"></div>
+                        </div>
+
+                        <!-- Prénom -->
+                        <div class="form-group mb-4">
+                            <label for="prenom" class="form-label">Prénom:</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-user text-primary"></i>
+                                </span>
+                                <input type="text" id="prenom" name="prenom" th:field="*{prenom}" 
+                                       class="form-control" required placeholder="Votre prénom">
+                            </div>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('prenom')}" 
+                                 th:errors="*{prenom}"></div>
+                        </div>
+
+                        <!-- Date de naissance -->
+                        <div class="form-group mb-4">
+                            <label for="dateNaissance" class="form-label">Date de naissance:</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-birthday-cake text-primary"></i>
+                                </span>
+                                <input type="date" id="dateNaissance" name="dateNaissance" th:field="*{dateNaissance}" 
+                                       class="form-control" required>
+                            </div>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('dateNaissance')}" 
+                                 th:errors="*{dateNaissance}"></div>
+                        </div>
+
+                        <!-- Profil -->
+                        <div class="form-group mb-4">
+                            <label for="profil" class="form-label">Profil:</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-user-tag text-primary"></i>
+                                </span>
+                                <select th:field="*{profil.id}" class="form-select" id="profil" required>
+                                    <option value="">Sélectionnez un profil</option>
+                                    <option th:each="profil : ${profils}" th:value="${profil.id}" 
+                                            th:text="${profil.nom}"></option>
+                                </select>
+                            </div>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('profil.id')}" 
+                                 th:errors="*{profil.id}"></div>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="form-group mb-4">
+                            <label for="email" class="form-label">Email:</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-envelope text-primary"></i>
+                                </span>
+                                <input type="email" id="email" name="email" th:field="*{email}" 
+                                       class="form-control" required placeholder="votre@email.com">
+                            </div>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" 
+                                 th:errors="*{email}"></div>
+                        </div>
+
+                        <!-- Mot de passe -->
+                        <div class="form-group mb-4">
+                            <label for="motDePasse" class="form-label">Mot de passe:</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-lock text-primary"></i>
+                                </span>
+                                <input type="password" id="motDePasse" name="motDePasse" th:field="*{motDePasse}" 
+                                       class="form-control" required placeholder="Minimum 8 caractères">
+                            </div>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('motDePasse')}" 
+                                 th:errors="*{motDePasse}"></div>
+                        </div>
+
+                        <!-- Boutons -->
+                        <div class="d-flex justify-content-between mt-5">
+                            <button type="submit" class="btn btn-primary px-4 py-2">
+                                <i class="fas fa-user-plus me-2"></i>S'inscrire
+                            </button>
+                            <a href="/adherants/login" class="btn btn-outline-primary px-4 py-2">
+                                <i class="fas fa-sign-in-alt me-2"></i>Connexion
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <p class="text-muted">Retour à la <a th:href="@{/}" class="text-decoration-none text-primary">page d'accueil</a></p>
+                <p class="text-muted">Déjà inscrit ? <a th:href="@{/adherant/connexion}" class="text-decoration-none text-primary">Connectez-vous</a></p>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="prenom" class="form-label">Prénom</label>
-            <input type="text" th:field="*{prenom}" class="form-control" id="prenom" required maxlength="50">
-            <span class="text-danger" th:if="${#fields.hasErrors('prenom')}" th:errors="*{prenom}"></span>
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
-            <input type="email" th:field="*{email}" class="form-control" id="email" required maxlength="50">
-            <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-        </div>
-        <div class="mb-3">
-            <label for="motDePasse" class="form-label">Mot de passe</label>
-            <input type="password" th:field="*{motDePasse}" class="form-control" id="motDePasse" required maxlength="50">
-            <span class="text-danger" th:if="${#fields.hasErrors('motDePasse')}" th:errors="*{motDePasse}"></span>
-        </div>
-        <div class="mb-3">
-            <label for="dateNaissance" class="form-label">Date de naissance</label>
-            <input type="date" th:field="*{dateNaissance}" class="form-control" id="dateNaissance" required>
-            <span class="text-danger" th:if="${#fields.hasErrors('dateNaissance')}" th:errors="*{dateNaissance}"></span>
-        </div>
-        <div class="mb-3">
-            <label for="profil" class="form-label">Profil</label>
-            <select th:field="*{profil.id}" class="form-select" id="profil" required>
-                <option th:each="profil : ${profils}" th:value="${profil.id}" th:text="${profil.nom}"></option>
-            </select>
-            <span class="text-danger" th:if="${#fields.hasErrors('profil.id')}" th:errors="*{profil.id}"></span>
-        </div>
-        <button type="submit" class="btn btn-primary">S'inscrire</button>
-    </form>
+    </div>
 </div>
